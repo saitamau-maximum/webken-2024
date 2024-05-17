@@ -8,7 +8,7 @@ npm install
 
 ### 実行方法
 ```bash
-node server.js
+npm run start
 ```
 
 #### TODO追加コマンド
