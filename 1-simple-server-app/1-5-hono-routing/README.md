@@ -1,7 +1,7 @@
-# 6-simple-server-app
-## 6-5-hono-routing
+# 1-simple-server-app
+## 1-5-hono-routing
 ### 実行環境
-`6-simple-server-app/6-5-hono-routing` に `cd` した上で、以下のコマンドを実行する必要があります:
+`1-simple-server-app/1-5-hono-routing` に `cd` した上で、以下のコマンドを実行する必要があります:
 ```bash
 npm install
 ```
