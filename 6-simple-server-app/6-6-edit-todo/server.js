@@ -44,7 +44,7 @@ app.delete("/:id", async (c) => {
   }
   todoList = todoList.filter((todo) => todo.id !== id);
 
-  return new Response(null, { status: 204 });
+  return c.json(null, 204);
 });
 
 serve({
