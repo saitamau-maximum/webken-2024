@@ -14,5 +14,11 @@ npm run start
 #### TODO追加コマンド
 以下のコマンドを実行後にブラウザをリロードすると、TODOが追加されていることが確認できます。
 ```bash
-curl -X POST -H "Content-Type: application/json" -d '{"title": "次回のWeb研に出席する"}' http://localhost:8000
+curl -o /dev/null -w "%{http_code}\n" -s -X POST -H "Content-Type: application/json" -d '{"title": "次回のWeb研に出席する"}' http://localhost:8000
 ```
+
+#### ステータスコード早見表
+
+| status | 意味 | 状況 |
+| --- | --- | --- |
+| 201 | Created | 新しいTODOが作成された |
