@@ -3,7 +3,7 @@
 ### 実行環境
 `6-simple-server-app/6-4-get-todo` に `cd` した上で、以下のコマンドを実行する必要があります:
 ```bash
-npm install hono @hono/node-server
+npm install
 ```
 
 ### 実行方法

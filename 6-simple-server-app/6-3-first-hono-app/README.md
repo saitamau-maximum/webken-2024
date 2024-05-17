@@ -4,7 +4,7 @@
 サーバーを立ち上げるためには、以下のコマンドを実行して
 必要なライブラリをインストールする必要があります:
 ```bash
-npm install hono @hono/node-server
+npm install
 ```
 
 ### 実行方法
