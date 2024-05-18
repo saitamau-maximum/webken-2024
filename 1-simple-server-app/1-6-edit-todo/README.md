@@ -1,5 +1,5 @@
 # 1-simple-server-app
-## 1-1-edit-todo
+## 1-6-edit-todo
 ### 実行環境
 `1-simple-server-app/1-5-edit-todo` に `cd` した上で、以下のコマンドを実行する必要があります:
 ```bash
