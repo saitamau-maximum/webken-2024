@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap");
 
 html[lang="ja"] {
   font-family: "Noto Sans JP", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
@@ -9,7 +9,9 @@ body {
   background-color: #fdfdfd;
 }
 
-input[type="text"], textarea, select {
+input[type="text"],
+textarea,
+select {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -22,7 +24,6 @@ input[type="text"], textarea, select {
 h1 {
   text-align: center;
 }
-
 
 button {
   background-color: #3f8ce4;
