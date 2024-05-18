@@ -1,8 +1,9 @@
 {
-  "name": "1-1-edit-todo",
+  "name": "1-6-edit-todo",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
+  "type": "module",
   "dependencies": {
     "@hono/node-server": "^1.11.1",
     "hono": "^4.3.6"
