@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap');
+
+html[lang="ja"] {
+  font-family: "Noto Sans JP", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+}
+
+body {
+  margin: 0;
+  background-color: #fdfdfd;
+}
+
+input[type="text"], textarea, select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  width: 50%;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+h1 {
+  text-align: center;
+}
+
+
+button {
+  background-color: #3f8ce4;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: #2a6cb8;
+}
+
+.task-container-wrapper {
+  margin: 0 auto;
+  /* display: flex;
+  flex-direction: column;
+  align-items: center; */
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 5px;
+  border: 1px solid black;
+  width: 50%;
+}
+
+.task-container {
+  padding-left: 8px;
+}
+
+.task-textbox {
+  width: 100%;
+}
+
+.delete-button {
+  background-color: #e74c3c;
+}
+
+.delete-button:hover {
+  background-color: #c0392b;
+}
+
+.todo-title {
+  color: #494949;
+}
+
+.container-title {
+  color: #494949;
+}

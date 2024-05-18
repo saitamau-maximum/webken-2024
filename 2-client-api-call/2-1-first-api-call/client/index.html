@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>2-1-first-api-call</title>
+  </head>
+  <body>
+    <h1>2-1-first-api-call</h1>
+    <button id="fetch">Fetch</button>
+    <div id="output"></div>
+
+    <script>
+      const fetchButton = document.getElementById("fetch");
+      const output = document.getElementById("output");
+
+      fetchButton.addEventListener("click", async () => {
+        const response = await fetch("http://localhost:8000");
+        console.log(response);
+        const data = await response.text();
+        output.innerHTML = data;
+      });
+    </script>
+  </body>
+</html>

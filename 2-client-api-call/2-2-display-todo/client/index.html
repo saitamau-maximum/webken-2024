@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TODOアプリ</title>
+  </head>
+  <body>
+    <h1>TODOアプリ</h1>
+
+    <div id="todoList"></div>
+
+    <script>
+      // サーバーからTODOリストを取得して表示する
+      async function fetchTodoList() {
+        const response = await fetch("http://localhost:8000/api/todo");
+        const todoList = await response.json();
+
+        const todoListElement = document.getElementById("todoList");
+        todoListElement.innerHTML = "";
+
+        todoList.forEach((todo) => {
+          const todoElement = document.createElement("div");
+          todoElement.innerHTML = `
+          <input type="checkbox" ${todo.completed ? "checked" : ""} disabled>
+          <span>${todo.title}</span>
+        `;
+          todoListElement.appendChild(todoElement);
+        });
+      }
+
+      document.addEventListener("DOMContentLoaded", fetchTodoList);
+    </script>
+  </body>
+</html>
