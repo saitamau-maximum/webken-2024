@@ -15,7 +15,7 @@ app.get("/", (c) => c.json(todoList));
 app.post("/", async (c) => {
   const param = await c.req.json();
   const newTodo = {
-    id: String(todoList.length + 1),
+    id: String(Number(todoList.length === 0 ? "1" : todoList[todoList.length - 1].id) + 1),
     completed: false,
     title: param.title,
   };
@@ -32,7 +32,7 @@ app.put("/:id", async (c) => {
   }
   const param = await c.req.json();
   todo.title = param.title || todo.title;
-  todo.completed = param.completed || todo.completed;
+  todo.completed = param.completed !== undefined ? param.completed : todo.completed;
   return c.json(null, 204);
 });
 
