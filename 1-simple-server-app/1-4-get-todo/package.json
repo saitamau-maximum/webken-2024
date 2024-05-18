@@ -1,8 +1,5 @@
 {
   "name": "1-4-get-todo",
-  "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
   "type": "module",
   "dependencies": {
     "@hono/node-server": "^1.11.1",
@@ -10,7 +7,5 @@
   },
   "scripts": {
     "start": "node server.js"
-  },
-  "author": "yukikamome316",
-  "license": "MIT"
+  }
 }
