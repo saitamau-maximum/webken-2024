@@ -12,12 +12,12 @@ if (fs.existsSync(dbPath)) {
 
 const db = new sqlite3.Database("test.db");
 
-const displayAllTasks = (db) => {
+const displayAllTasks = (db, title) => {
   db.all(queries.Tasks.readAll, (err, rows) => {
     if (err) {
       throw err;
     }
-    console.log("---- Tasks ----");
+    console.log(`---- ${title} ----`);
     rows.forEach((row) => {
       console.log(`${row.id}: ${row.title} (completed: ${row.completed})`);
     });
@@ -35,13 +35,20 @@ db.serialize(() => {
   db.run(queries.Tasks.create, "ICPCに参加する", false);
 
   // タスクを全て取得
-  displayAllTasks(db);
+  displayAllTasks(db, "初期状態");
 
   // タスクを完了にする
   db.run(queries.Tasks.setCompleteStateById, "1", 1);
+  displayAllTasks(db, "タスク1を完了にした状態");
 
-  // タスクを全て取得
-  displayAllTasks(db);
+  // タスクのタイトルを更新
+  db.run(queries.Tasks.updateTitleById, "Node.jsの操作に慣れること", 1);
+  displayAllTasks(db, "タスク1のタイトルを更新した状態");
+
+  // タスクを削除
+  db.run(queries.Tasks.deleteById, 2);
+  displayAllTasks(db, "タスク2を削除した状態");
+
 });
 
 db.close();
