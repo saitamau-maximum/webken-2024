@@ -1,4 +1,4 @@
-import sqlite3 from "sqlite3";
+import Database from "better-sqlite3";
 import * as queries from "./queries.js";
 import fs from "fs";
 
@@ -10,44 +10,42 @@ if (fs.existsSync(dbPath)) {
   fs.unlinkSync(dbPath);
 }
 
-const db = new sqlite3.Database("test.db");
+const db = new Database("test.db");
 
 const displayAllTasks = (db, title) => {
-  db.all(queries.Tasks.readAll, (err, rows) => {
-    if (err) {
-      throw err;
-    }
-    console.log(`---- ${title} ----`);
-    rows.forEach((row) => {
-      console.log(`${row.id}: ${row.title} (completed: ${row.completed})`);
-    });
-    console.log();
+  const rows = db.prepare(queries.Tasks.readAll).all();
+  console.log(`---- ${title} ----`);
+  rows.forEach((row) => {
+    console.log(`${row.id}: ${row.title} (completed: ${row.completed})`);
   });
+  console.log();
 };
 
-db.serialize(() => {
+db.transaction(() => {
   // tasksテーブルが存在しない場合は作成
-  db.run(queries.Tasks.createTable);
+  db.exec(queries.Tasks.createTable);
 
   // タスクを追加
-  db.run(queries.Tasks.create, "SQLiteの操作に慣れる", false);
-  db.run(queries.Tasks.create, "TODOアプリを完成させる", false);
-  db.run(queries.Tasks.create, "ICPCに参加する", false);
+  db.prepare(queries.Tasks.create).run("SQLiteの操作に慣れる", "0");
+  db.prepare(queries.Tasks.create).run("TODOアプリを完成させる", "0");
+  db.prepare(queries.Tasks.create).run("ICPCに参加する", "0");
+})();
 
-  // タスクを全て取得
-  displayAllTasks(db, "初期状態");
+// タスクを全て取得
+displayAllTasks(db, "初期状態");
 
+db.transaction(() => {
   // タスクを完了にする
-  db.run(queries.Tasks.setCompleteStateById, "1", 1);
+  db.prepare(queries.Tasks.setCompleteStateById).run("1", 1);
   displayAllTasks(db, "タスク1を完了にした状態");
 
   // タスクのタイトルを更新
-  db.run(queries.Tasks.updateTitleById, "Node.jsの操作に慣れること", 1);
+  db.prepare(queries.Tasks.updateTitleById).run("Node.jsの操作に慣れること", 1);
   displayAllTasks(db, "タスク1のタイトルを更新した状態");
 
   // タスクを削除
-  db.run(queries.Tasks.deleteById, 2);
+  db.prepare(queries.Tasks.deleteById).run(2);
   displayAllTasks(db, "タスク2を削除した状態");
-});
+})();
 
 db.close();

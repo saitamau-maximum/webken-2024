@@ -1,6 +1,6 @@
-import sqlite3 from "sqlite3";
+import Database from "better-sqlite3";
 
-const db = new sqlite3.Database("test.db");
+const db = new Database("test.db");
 
 // テーブル作成するSQL
 const createTable = `
@@ -10,25 +10,22 @@ CREATE TABLE IF NOT EXISTS tasks (
   completed BOOLEAN NOT NULL
 );
 `;
+
 // タスクを追加するSQL
 const createTask = `INSERT INTO tasks (title, completed) VALUES (?, ?);`;
+
 // タスクを全て取得するSQL
 const readAllTasks = `SELECT * FROM tasks;`;
 
-db.serialize(() => {
-  // tasksテーブルが存在しない場合は作成
-  db.run(createTable);
+// tasksテーブルが存在しない場合は作成
+db.prepare(createTable).run();
 
-  // タスクを追加
-  db.run(createTask, "SQLiteの操作に慣れる", false);
+// タスクを追加
+db.prepare(createTask).run("SQLiteの操作に慣れる", "0");
 
-  // タスクを全て取得
-  db.each(readAllTasks, (err, row) => {
-    if (err) {
-      throw err;
-    }
-    console.log(row);
-  });
-});
+// タスクを全て取得
+const tasks = db.prepare(readAllTasks).all();
+
+console.log(tasks);
 
 db.close();

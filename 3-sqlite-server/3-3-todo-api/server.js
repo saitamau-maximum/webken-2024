@@ -1,7 +1,7 @@
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
-import sqlite3 from "sqlite3";
+import Database from "better-sqlite3";
 import * as queries from "./queries.js";
 
 const todo = new Hono();
@@ -12,21 +12,19 @@ todo.use(
     origin: "null",
   })
 );
-
-const db = new sqlite3.Database("test.db");
-
+const db = new Database("test.db");
 const migrate = () => {
-  db.serialize(() => {
-    db.run(queries.Tasks.createTable);
-  });
+  db.exec(queries.Tasks.createTable);
 };
 
+const insertStmt = db.prepare(queries.Tasks.create);
+const updateStmt = db.prepare(queries.Tasks.updateTitleById);
+const updateTitleStmt = db.prepare(queries.Tasks.updateTitleById);
+const setCompleteStateStmt = db.prepare(queries.Tasks.setCompleteStateById);
+const deleteStmt = db.prepare(queries.Tasks.deleteById);
+
 todo.get("/", async (c) => {
-  const tasks = await new Promise((resolve) => {
-    db.all(queries.Tasks.readAll, (err, rows) => {
-      resolve(rows);
-    });
-  });
+  const tasks = await db.prepare(queries.Tasks.readAll).all();
 
   return c.json(tasks);
 });
@@ -34,73 +32,72 @@ todo.get("/", async (c) => {
 todo.post("/", async (c) => {
   const param = await c.req.json();
 
-  await new Promise((resolve) => {
-    db.run(
-      queries.Tasks.create,
-      param.title,
-      param.completed || false,
-      (err) => {
-        if (err) {
-          throw err;
-        }
-        resolve();
+  try {
+    db.transaction(() => {
+      const insertResult = insertStmt.run(
+        param.title,
+        param.completed ? "1" : "0"
+      );
+
+      if (insertResult.changes === 0) {
+        throw new Error("Failed to create task");
       }
-    );
-  }).catch((err) => {
+
+      if (param.title !== undefined) {
+        const updateResult = updateStmt.run(
+          param.title,
+          insertResult.lastInsertRowid
+        );
+
+        if (updateResult.changes === 0) {
+          throw new Error("Failed to update task title");
+        }
+      }
+    })();
+
+    return c.body(null, { status: 201 });
+  } catch (err) {
     return c.json(
       { message: err.message },
       {
         status: 400,
       }
     );
-  });
-
-  return c.body(null, { status: 201 });
+  }
 });
 
 todo.put("/:id", async (c) => {
   const param = await c.req.json();
   const id = c.req.param("id");
 
-  if (param.title !== undefined) {
-    await new Promise((resolve) => {
-      db.run(queries.Tasks.updateTitleById, param.title, id, (err) => {
-        if (err) {
-          throw err;
-        }
-        resolve();
-      });
-    }).catch((err) => {
-      return c.json(
-        { message: err.message },
-        {
-          status: 400,
-        }
-      );
-    });
-  }
+  try {
+    db.transaction(() => {
+      if (param.title !== undefined) {
+        const updateTitleResult = updateTitleStmt.run(param.title, id);
 
-  if (param.completed !== undefined) {
-    await new Promise((resolve) => {
-      db.run(
-        queries.Tasks.setCompleteStateById,
-        param.completed ? "1" : "0",
-        id,
-        (err) => {
-          if (err) {
-            throw err;
-          }
-          resolve();
+        if (updateTitleResult.changes === 0) {
+          throw new Error("Failed to update task title");
         }
-      );
-    }).catch((err) => {
-      return c.json(
-        { message: err.message },
-        {
-          status: 400,
+      }
+
+      if (param.completed !== undefined) {
+        const setCompleteStateResult = setCompleteStateStmt.run(
+          param.completed ? "1" : "0",
+          id
+        );
+
+        if (setCompleteStateResult.changes === 0) {
+          throw new Error("Failed to update task completion state");
         }
-      );
-    });
+      }
+    })();
+  } catch (err) {
+    return c.json(
+      { message: err.message },
+      {
+        status: 400,
+      }
+    );
   }
 
   return c.body(null, { status: 204 });
@@ -109,23 +106,24 @@ todo.put("/:id", async (c) => {
 todo.delete("/:id", async (c) => {
   const id = c.req.param("id");
 
-  await new Promise((resolve) => {
-    db.run(queries.Tasks.deleteById, id, (err) => {
-      if (err) {
-        throw err;
+  try {
+    db.transaction(() => {
+      const deleteResult = deleteStmt.run(id);
+
+      if (deleteResult.changes === 0) {
+        throw new Error("Failed to delete task");
       }
-      resolve();
-    });
-  }).catch((err) => {
+    })();
+
+    return c.body(null, { status: 204 });
+  } catch (err) {
     return c.json(
       { message: err.message },
       {
         status: 400,
       }
     );
-  });
-
-  return c.body(null, { status: 204 });
+  }
 });
 
 const app = new Hono();
