@@ -28,9 +28,7 @@ todo.get("/", async (c) => {
     });
   });
 
-  return new Response(JSON.stringify(tasks), {
-    headers: { "Content-Type": "application/json" },
-  });
+  return c.json(tasks);
 });
 
 todo.post("/", async (c) => {
@@ -44,13 +42,12 @@ todo.post("/", async (c) => {
       resolve();
     });
   }).catch((err) => {
-    return new Response(JSON.stringify({ message: err.message }), {
-      status: 400,
-      headers: { "Content-Type": "application/json" },
-    });
+    return c.json({ message: err.message }, {  
+      status: 400,  
+    });  
   });
 
-  return new Response(null, { status: 201 });
+  return c.body(null, { status: 201 });
 });
 
 todo.put("/:id", async (c) => {
@@ -66,9 +63,8 @@ todo.put("/:id", async (c) => {
         resolve();
       });
     }).catch((err) => {
-      return new Response(JSON.stringify({ message: err.message }), {
-        status: 400,
-        headers: { "Content-Type": "application/json" },
+      return c.json({ message: err.message }, {  
+        status: 400,  
       });
     });
   }
@@ -82,14 +78,13 @@ todo.put("/:id", async (c) => {
         resolve();
       });
     }).catch((err) => {
-      return new Response(JSON.stringify({ message: err.message }), {
-        status: 400,
-        headers: { "Content-Type": "application/json" },
+      return c.json({ message: err.message }, {  
+        status: 400,  
       });
     });
   }
 
-  return new Response(null, { status: 204 });
+  return c.body(null, { status: 204 });
 });
 
 todo.delete("/:id", async (c) => {
@@ -103,13 +98,12 @@ todo.delete("/:id", async (c) => {
       resolve();
     });
   }).catch((err) => {
-    return new Response(JSON.stringify({ message: err.message }), {
-      status: 400,
-      headers: { "Content-Type": "application/json" },
+    return c.json({ message: err.message }, {  
+      status: 400,  
     });
   });
 
-  return new Response(null, { status: 204 });
+  return c.body(null, { status: 204 });
 });
 
 const app = new Hono();
