@@ -19,7 +19,7 @@ const migrate = () => {
   db.serialize(() => {
     db.run(queries.Tasks.createTable);
   });
-}
+};
 
 todo.get("/", async (c) => {
   const tasks = await new Promise((resolve) => {
@@ -35,16 +35,24 @@ todo.post("/", async (c) => {
   const param = await c.req.json();
 
   await new Promise((resolve) => {
-    db.run(queries.Tasks.create, param.title, param.completed || false, (err) => {
-      if (err) {
-      throw err;
+    db.run(
+      queries.Tasks.create,
+      param.title,
+      param.completed || false,
+      (err) => {
+        if (err) {
+          throw err;
+        }
+        resolve();
       }
-      resolve();
-    });
+    );
   }).catch((err) => {
-    return c.json({ message: err.message }, {  
-      status: 400,  
-    });  
+    return c.json(
+      { message: err.message },
+      {
+        status: 400,
+      }
+    );
   });
 
   return c.body(null, { status: 201 });
@@ -63,24 +71,35 @@ todo.put("/:id", async (c) => {
         resolve();
       });
     }).catch((err) => {
-      return c.json({ message: err.message }, {  
-        status: 400,  
-      });
+      return c.json(
+        { message: err.message },
+        {
+          status: 400,
+        }
+      );
     });
   }
 
   if (param.completed !== undefined) {
     await new Promise((resolve) => {
-      db.run(queries.Tasks.setCompleteStateById, param.completed ? "1" : "0", id, (err) => {
-        if (err) {
-          throw err;
+      db.run(
+        queries.Tasks.setCompleteStateById,
+        param.completed ? "1" : "0",
+        id,
+        (err) => {
+          if (err) {
+            throw err;
+          }
+          resolve();
         }
-        resolve();
-      });
+      );
     }).catch((err) => {
-      return c.json({ message: err.message }, {  
-        status: 400,  
-      });
+      return c.json(
+        { message: err.message },
+        {
+          status: 400,
+        }
+      );
     });
   }
 
@@ -98,9 +117,12 @@ todo.delete("/:id", async (c) => {
       resolve();
     });
   }).catch((err) => {
-    return c.json({ message: err.message }, {  
-      status: 400,  
-    });
+    return c.json(
+      { message: err.message },
+      {
+        status: 400,
+      }
+    );
   });
 
   return c.body(null, { status: 204 });

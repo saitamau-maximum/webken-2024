@@ -48,7 +48,6 @@ db.serialize(() => {
   // タスクを削除
   db.run(queries.Tasks.deleteById, 2);
   displayAllTasks(db, "タスク2を削除した状態");
-
 });
 
 db.close();
