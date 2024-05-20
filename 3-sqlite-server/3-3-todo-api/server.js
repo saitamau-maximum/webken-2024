@@ -12,7 +12,9 @@ todo.use(
     origin: "null",
   })
 );
+
 const db = new Database("test.db");
+
 const migrate = () => {
   db.exec(queries.Tasks.createTable);
 };
