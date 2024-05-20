@@ -3,7 +3,7 @@ import { Tasks } from "./queries.js";
 
 const db = new Database("test.db");
 
-const displayAllTasks = (db, title) => {
+const displayAllTasks = (title) => {
   const rows = db.prepare(Tasks.readAll).all();
   console.log(`---- ${title} ----`);
   rows.forEach((row) => {
@@ -23,20 +23,20 @@ db.transaction(() => {
 })();
 
 // タスクを全て取得
-displayAllTasks(db, "初期状態");
+displayAllTasks("初期状態");
 
 db.transaction(() => {
   // タスクを完了にする
   db.prepare(Tasks.setCompleteStateById).run("1", 1);
-  displayAllTasks(db, "タスク1を完了にした状態");
+  displayAllTasks("タスク1を完了にした状態");
 
   // タスクのタイトルを更新
   db.prepare(Tasks.updateTitleById).run("Node.jsの操作に慣れること", 1);
-  displayAllTasks(db, "タスク1のタイトルを更新した状態");
+  displayAllTasks("タスク1のタイトルを更新した状態");
 
   // タスクを削除
   db.prepare(Tasks.deleteById).run(2);
-  displayAllTasks(db, "タスク2を削除した状態");
+  displayAllTasks("タスク2を削除した状態");
 })();
 
 db.close();
