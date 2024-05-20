@@ -10,41 +10,60 @@ let todoList = [
   { id: "4", title: "ゲームをクリアする", completed: false },
 ];
 
-app.get("/", (c) => c.json(todoList));
+app.get("/", (c) => c.json(todoList, 200));
 
 app.post("/", async (c) => {
   const param = await c.req.json();
   const newTodo = {
     id: String(Number(todoList.length === 0 ? "1" : todoList[todoList.length - 1].id) + 1),
-    completed: false,
+    completed: param.completed ? 1 : 0,
     title: param.title,
   };
   todoList = [...todoList, newTodo];
 
-  return c.json(newTodo, 201);
+  return c.json({ message: "Successfully created" }, 200);
 });
 
 app.put("/:id", async (c) => {
-  const id = c.req.param("id");
-  const todo = todoList.find((todo) => todo.id === id);
-  if (!todo) {
-    return c.json({ message: "not found" }, 404);
-  }
   const param = await c.req.json();
-  todo.title = param.title || todo.title;
-  todo.completed = param.completed !== undefined ? param.completed : todo.completed;
-  return c.json(null, 204);
+  const id = c.req.param("id");
+
+  if (!param.title && !param.completed) {
+    throw new Error("Either title or completed must be provided");
+  }
+
+  if (param.title) {
+    const todo = todoList.find((todo) => todo.id === id);
+    if (!todo) {
+      throw new Error("Failed to update task title");
+    }
+    todo.title = param.title;
+  }
+
+  if (param.completed !== undefined) {
+    const todo = todoList.find((todo) => todo.id === id);
+    if (!todo) {
+      throw new Error("Failed to update task completion state");
+    }
+    todo.completed = param.completed;
+  }
+
+  return c.json({ message: "Task updated" }, 200);
 });
 
 app.delete("/:id", async (c) => {
   const id = c.req.param("id");
   const todo = todoList.find((todo) => todo.id === id);
   if (!todo) {
-    return c.json({ message: "not found" }, 404);
+    throw new Error("Failed to delete task");
   }
   todoList = todoList.filter((todo) => todo.id !== id);
 
-  return c.json(null, 204);
+  return c.json({ message: "Task deleted" }, 200);
+});
+
+app.onError((err, c) => {
+  return c.json({ message: err.message }, 400);
 });
 
 serve({
