@@ -45,7 +45,5 @@ curl -o /dev/null -w "%{http_code}\n" -s -X DELETE http://localhost:8000/api/tod
 
 | status | 意味 | 状況 |
 | --- | --- | --- |
-| 201 | Created | 新しいTODOが作成された |
-| 400 | Bad Request | リクエストの形式が正しくない |
-| 404 | Not Found | 指定されたIDのTODOが存在しない |
-| 204 | No Content | TODOの内容が正常に変更された |
+| 200 | OK | リクエストが成功した場合 |
+| 400 | Bad Request | リクエストが不正な場合 |
