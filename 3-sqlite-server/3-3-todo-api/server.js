@@ -1,17 +1,9 @@
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
-import { cors } from "hono/cors";
 import Database from "better-sqlite3";
 import { TaskQuery } from "./queries.js";
 
 const todo = new Hono();
-
-todo.use(
-  "*",
-  cors({
-    origin: "null",
-  })
-);
 
 const db = new Database("test.db");
 
