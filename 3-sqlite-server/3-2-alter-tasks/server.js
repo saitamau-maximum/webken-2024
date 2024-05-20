@@ -17,9 +17,9 @@ db.transaction(() => {
   db.exec(Tasks.createTable);
 
   // タスクを追加
-  db.prepare(Tasks.create).run("SQLiteの操作に慣れる", "0");
-  db.prepare(Tasks.create).run("TODOアプリを完成させる", "0");
-  db.prepare(Tasks.create).run("ICPCに参加する", "0");
+  db.prepare(Tasks.create).run("SQLiteの操作に慣れる", 0);
+  db.prepare(Tasks.create).run("TODOアプリを完成させる", 0);
+  db.prepare(Tasks.create).run("ICPCに参加する", 0);
 })();
 
 // タスクを全て取得
@@ -27,7 +27,7 @@ displayAllTasks("初期状態");
 
 db.transaction(() => {
   // タスクを完了にする
-  db.prepare(Tasks.setCompleteStateById).run("1", 1);
+  db.prepare(Tasks.setCompleteStateById).run(1, 1);
   displayAllTasks("タスク1を完了にした状態");
 
   // タスクのタイトルを更新

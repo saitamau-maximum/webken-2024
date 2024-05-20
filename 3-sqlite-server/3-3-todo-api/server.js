@@ -32,7 +32,7 @@ todo.get("/", async (c) => {
 
 todo.post("/", async (c) => {
   const param = await c.req.json();
-  const insertResult = insertStmt.run(param.title, param.completed ? "1" : "0");
+  const insertResult = insertStmt.run(param.title, param.completed ? 1 : 0);
 
   if (insertResult.changes === 0) {
     throw new Error("Failed to create task");
@@ -59,7 +59,7 @@ todo.put("/:id", async (c) => {
 
   if (param.completed) {
     const setCompleteStateResult = setCompleteStateStmt.run(
-      param.completed ? "1" : "0",
+      param.completed ? 1 : 0,
       id
     );
 
