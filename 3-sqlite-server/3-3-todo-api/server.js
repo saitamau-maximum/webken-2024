@@ -2,7 +2,7 @@ import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import Database from "better-sqlite3";
-import { Tasks } from "./queries.js";
+import { TaskQuery } from "./queries.js";
 
 const todo = new Hono();
 
@@ -16,14 +16,14 @@ todo.use(
 const db = new Database("test.db");
 
 const migrate = () => {
-  db.exec(Tasks.createTable);
+  db.exec(TaskQuery.createTable);
 };
 
-const readAllStmt = db.prepare(Tasks.readAll);
-const insertStmt = db.prepare(Tasks.create);
-const updateTitleStmt = db.prepare(Tasks.updateTitleById);
-const setCompleteStateStmt = db.prepare(Tasks.setCompleteStateById);
-const deleteStmt = db.prepare(Tasks.deleteById);
+const readAllStmt = db.prepare(TaskQuery.readAll);
+const insertStmt = db.prepare(TaskQuery.create);
+const updateTitleStmt = db.prepare(TaskQuery.updateTitleById);
+const setCompleteStateStmt = db.prepare(TaskQuery.setCompleteStateById);
+const deleteStmt = db.prepare(TaskQuery.deleteById);
 
 todo.get("/", async (c) => {
   const tasks = await readAllStmt.all();

@@ -1,4 +1,4 @@
-export const Tasks = {
+export const TaskQuery = {
   createTable: `
     CREATE TABLE IF NOT EXISTS tasks (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
