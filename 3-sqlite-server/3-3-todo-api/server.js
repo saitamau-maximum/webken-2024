@@ -17,15 +17,14 @@ const migrate = () => {
   db.exec(queries.Tasks.createTable);
 };
 
+const readAllStmt = db.prepare(queries.Tasks.readAll);
 const insertStmt = db.prepare(queries.Tasks.create);
-const updateStmt = db.prepare(queries.Tasks.updateTitleById);
 const updateTitleStmt = db.prepare(queries.Tasks.updateTitleById);
 const setCompleteStateStmt = db.prepare(queries.Tasks.setCompleteStateById);
 const deleteStmt = db.prepare(queries.Tasks.deleteById);
 
 todo.get("/", async (c) => {
-  const tasks = await db.prepare(queries.Tasks.readAll).all();
-
+  const tasks = await readAllStmt.all();
   return c.json(tasks);
 });
 
@@ -37,85 +36,7 @@ todo.post("/", async (c) => {
     throw new Error("Failed to create task");
   }
 
-    return c.body({ message: "Created successfully" }, 200);
-    return c.body({ message: "Created successfully" }, 200);
-    return c.body({ message: "Created successfully" }, 200);
-    return c.body({ message: "Created successfully" }, 200);
-    return c.body({ message: "Created successfully" }, 200);
-  } catch (err) {
-    return c.json({ message: err.message }, 400);
-  }
   return c.body({ message: "Created successfully" }, 200);
-  } catch (err) {
-    return c.json({ message: err.message }, 400);
-  }
-  return c.body({ message: "Created successfully" }, 200);
-    return c.body({ message: "Created successfully" }, 200);
-  } catch (err) {
-    return c.json({ message: err.message }, 400);
-  }
-  return c.body({ message: "Created successfully" }, 200);
-  } catch (err) {
-    return c.json({ message: err.message }, 400);
-  }
-  return c.body({ message: "Created successfully" }, 200);
-    return c.body({ message: "Created successfully" }, 200);
-    return c.body({ message: "Created successfully" }, 200);
-  } catch (err) {
-    return c.json({ message: err.message }, 400);
-  }
-  return c.body({ message: "Created successfully" }, 200);
-  } catch (err) {
-    return c.json({ message: err.message }, 400);
-  }
-  return c.body({ message: "Created successfully" }, 200);
-    return c.body({ message: "Created successfully" }, 200);
-  } catch (err) {
-    return c.json({ message: err.message }, 400);
-  }
-  return c.body({ message: "Created successfully" }, 200);
-  } catch (err) {
-    return c.json({ message: err.message }, 400);
-  }
-  return c.body({ message: "Created successfully" }, 200);
-    return c.body({ message: "Created successfully" }, 200);
-    return c.body({ message: "Created successfully" }, 200);
-    return c.body({ message: "Created successfully" }, 200);
-  } catch (err) {
-    return c.json({ message: err.message }, 400);
-  }
-  return c.body({ message: "Created successfully" }, 200);
-  } catch (err) {
-    return c.json({ message: err.message }, 400);
-  }
-  return c.body({ message: "Created successfully" }, 200);
-    return c.body({ message: "Created successfully" }, 200);
-  } catch (err) {
-    return c.json({ message: err.message }, 400);
-  }
-  return c.body({ message: "Created successfully" }, 200);
-  } catch (err) {
-    return c.json({ message: err.message }, 400);
-  }
-  return c.body({ message: "Created successfully" }, 200);
-    return c.body({ message: "Created successfully" }, 200);
-    return c.body({ message: "Created successfully" }, 200);
-  } catch (err) {
-    return c.json({ message: err.message }, 400);
-  }
-  return c.body({ message: "Created successfully" }, 200);
-  } catch (err) {
-    return c.json({ message: err.message }, 400);
-  }
-  return c.body({ message: "Created successfully" }, 200);
-    return c.body({ message: "Created successfully" }, 200);
-  } catch (err) {
-    return c.json({ message: err.message }, 400);
-  }
-  return c.body({ message: "Created successfully" }, 200);
-  } catch (err) {
-    return c.json({ message: err.message }, 400);
-  }
 });
 
 todo.put("/:id", async (c) => {
