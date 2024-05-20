@@ -3,7 +3,7 @@ async function fetchTodoList() {
   const response = await fetch("http://localhost:8000/api/todo");
   const todoList = await response.json();
 
-  const todoListElement = document.getElementById("todoList");
+  const todoListElement = document.getElementById("todo-list");
   todoListElement.innerHTML = "";
 
   todoList.forEach((todo) => {
@@ -53,7 +53,7 @@ async function updateTodoTitle(id, title) {
 
 // サーバーに新しいTODOアイテムを追加する
 async function addTodo() {
-  const todoTitleInput = document.getElementById("todoTitle");
+  const todoTitleInput = document.getElementById("todo-title");
   const todoTitle = todoTitleInput.value;
 
   if (todoTitle) {
@@ -84,7 +84,7 @@ async function deleteTodo(id) {
 }
 
 // フォームが送信されたときにaddTodo関数を呼び出す
-const addTodoForm = document.getElementById("addTodoForm");
+const addTodoForm = document.getElementById("add-todo-form");
 addTodoForm.addEventListener("submit", function (event) {
   event.preventDefault();
   addTodo();

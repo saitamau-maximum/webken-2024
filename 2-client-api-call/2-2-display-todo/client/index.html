@@ -8,7 +8,7 @@
   <body>
     <h1>TODOアプリ</h1>
 
-    <div id="todoList"></div>
+    <div id="todo-list"></div>
 
     <script>
       // サーバーからTODOリストを取得して表示する
@@ -16,7 +16,7 @@
         const response = await fetch("http://localhost:8000/api/todo");
         const todoList = await response.json();
 
-        const todoListElement = document.getElementById("todoList");
+        const todoListElement = document.getElementById("todo-list");
         todoListElement.innerHTML = "";
 
         todoList.forEach((todo) => {

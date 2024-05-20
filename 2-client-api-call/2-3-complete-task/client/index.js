@@ -3,7 +3,7 @@ async function fetchTodoList() {
   const response = await fetch("http://localhost:8000/api/todo");
   const todoList = await response.json();
 
-  const todoListElement = document.getElementById("todoList");
+  const todoListElement = document.getElementById("todo-list");
   todoListElement.innerHTML = "";
 
   todoList.forEach((todo) => {
