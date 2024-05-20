@@ -65,13 +65,11 @@ todo.put("/:id", async (c) => {
   const param = await c.req.json();
   const id = c.req.param("id");
 
-  try {
-    db.transaction(() => {
-      if (param.title !== undefined && param.completed !== undefined) {
-        throw new Error("Either title or completed must be provided");
-      }
+  if (!param.title && !param.completed) {
+    throw new Error("Either title or completed must be provided");
+  }
 
-      if (param.title !== undefined) {
+  if (param.title) {
         const updateTitleResult = updateTitleStmt.run(param.title, id);
 
         if (updateTitleResult.changes === 0) {
@@ -79,7 +77,7 @@ todo.put("/:id", async (c) => {
         }
       }
 
-      if (param.completed !== undefined) {
+  if (param.completed) {
         const setCompleteStateResult = setCompleteStateStmt.run(
           param.completed ? "1" : "0",
           id
