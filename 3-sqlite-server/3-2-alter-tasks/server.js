@@ -1,14 +1,5 @@
 import Database from "better-sqlite3";
 import { Tasks } from "./queries.js";
-import fs from "fs";
-
-const dbPath = "./test.db";
-
-if (fs.existsSync(dbPath)) {
-  console.log("test.dbが存在するので削除します...\n");
-
-  fs.unlinkSync(dbPath);
-}
 
 const db = new Database("test.db");
 
