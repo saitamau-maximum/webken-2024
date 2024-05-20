@@ -38,11 +38,11 @@ todo.put("/:id", async (c) => {
   const param = await c.req.json();
   const id = c.req.param("id");
 
-  if (!param.title && !param.completed) {
+  if (!param.title && param.completed === undefined) {
     throw new Error("Either title or completed must be provided");
   }
 
-  if (param.title) {
+  if (param.title !== undefined) {
     const todo = todoList.find((todo) => todo.id === id);
     if (!todo) {
       throw new Error("Failed to update task title");
