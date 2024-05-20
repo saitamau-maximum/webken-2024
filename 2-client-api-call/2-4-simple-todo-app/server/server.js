@@ -18,13 +18,7 @@ let todoList = [
   { id: "4", title: "ゲームをクリアする", completed: false },
 ];
 
-todo.get(
-  "/",
-  (c) =>
-    new Response(JSON.stringify(todoList), {
-      headers: { "Content-Type": "application/json" },
-    })
-);
+todo.get("/", (c) => c.json(todoList, 200));
 
 todo.post("/", async (c) => {
   const param = await c.req.json();
@@ -32,47 +26,54 @@ todo.post("/", async (c) => {
     id: String(
       Number(todoList.length === 0 ? "1" : todoList[todoList.length - 1].id) + 1
     ),
-    completed: false,
+    completed: param.completed ? 1 : 0,
     title: param.title,
   };
   todoList = [...todoList, newTodo];
 
-  return new Response(JSON.stringify(newTodo), {
-    status: 201,
-    headers: { "Content-Type": "application/json" },
-  });
+  return c.json({ message: "Successfully created" }, 200);
 });
 
 todo.put("/:id", async (c) => {
-  const id = c.req.param("id");
-  const todo = todoList.find((todo) => todo.id === id);
-  if (!todo) {
-    return new Response(JSON.stringify({ message: "not found" }), {
-      status: 404,
-      headers: { "Content-Type": "application/json" },
-    });
-  }
   const param = await c.req.json();
+  const id = c.req.param("id");
 
-  todo.title = param.title || todo.title;
-  todo.completed =
-    param.completed !== undefined ? param.completed : todo.completed;
+  if (!param.title && !param.completed) {
+    throw new Error("Either title or completed must be provided");
+  }
 
-  return new Response(null, { status: 204 });
+  if (param.title) {
+    const todo = todoList.find((todo) => todo.id === id);
+    if (!todo) {
+      throw new Error("Failed to update task title");
+    }
+    todo.title = param.title;
+  }
+
+  if (param.completed !== undefined) {
+    const todo = todoList.find((todo) => todo.id === id);
+    if (!todo) {
+      throw new Error("Failed to update task completion state");
+    }
+    todo.completed = param.completed;
+  }
+
+  return c.json({ message: "Task updated" }, 200);
 });
 
 todo.delete("/:id", async (c) => {
   const id = c.req.param("id");
   const todo = todoList.find((todo) => todo.id === id);
   if (!todo) {
-    return new Response(JSON.stringify({ message: "not found" }), {
-      status: 404,
-      headers: { "Content-Type": "application/json" },
-    });
+    throw new Error("Failed to delete task");
   }
   todoList = todoList.filter((todo) => todo.id !== id);
 
-  return new Response(null, { status: 204 });
+  return c.json({ message: "Task deleted" }, 200);
+});
+
+todo.onError((err, c) => {
+  return c.json({ message: err.message }, 400);
 });
 
 const app = new Hono();
