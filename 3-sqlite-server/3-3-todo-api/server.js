@@ -55,7 +55,7 @@ todo.post("/", async (c) => {
       }
     })();
 
-    return c.body(null, { status: 201 });
+    return c.body({ message: "Created successfully" }, 200);
   } catch (err) {
     return c.json({ message: err.message }, 400);
   }
@@ -90,7 +90,7 @@ todo.put("/:id", async (c) => {
     return c.json({ message: err.message }, 400);
   }
 
-  return c.body(null, { status: 204 });
+  return c.body({ message: "Task updated" }, 200);
 });
 
 todo.delete("/:id", async (c) => {
@@ -105,7 +105,7 @@ todo.delete("/:id", async (c) => {
       }
     })();
 
-    return c.body(null, { status: 204 });
+    return c.body({ message: "Task deleted" }, 200);
   } catch (err) {
     return c.json({ message: err.message }, 400);
   }
