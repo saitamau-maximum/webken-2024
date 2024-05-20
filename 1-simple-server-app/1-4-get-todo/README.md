@@ -21,4 +21,4 @@ curl -o /dev/null -w "%{http_code}\n" -s -X POST -H "Content-Type: application/j
 
 | status | 意味 | 状況 |
 | --- | --- | --- |
-| 201 | Created | 新しいTODOが作成された |
+| 200 | OK | リクエストが成功した場合 |
