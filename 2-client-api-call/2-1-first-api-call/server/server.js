@@ -7,7 +7,7 @@ const app = new Hono();
 app.use(
   "*",
   cors({
-    origin: "null",
+    origin: "*",
   })
 );
 

@@ -7,7 +7,7 @@ const todo = new Hono();
 todo.use(
   "*",
   cors({
-    origin: "null",
+    origin: "*",
   })
 );
 
