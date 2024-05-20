@@ -67,6 +67,10 @@ todo.put("/:id", async (c) => {
 
   try {
     db.transaction(() => {
+      if (param.title !== undefined && param.completed !== undefined) {
+        throw new Error("Either title or completed must be provided");
+      }
+
       if (param.title !== undefined) {
         const updateTitleResult = updateTitleStmt.run(param.title, id);
 
