@@ -4,9 +4,12 @@ import { cors } from "hono/cors";
 
 const todo = new Hono();
 
-todo.use("*", cors({
-  origin: "*",
-}));
+todo.use(
+  "*",
+  cors({
+    origin: "*",
+  })
+);
 
 let todoList = [
   { id: "1", title: "JavaScriptを勉強する", completed: false },
@@ -15,7 +18,7 @@ let todoList = [
   { id: "4", title: "ゲームをクリアする", completed: false },
 ];
 
-todo.get("/", (c) => new Response(JSON.stringify(todoList), { headers: { "Content-Type": "application/json" } }));
+todo.get("/", (c) => c.json(todoList, 200));
 
 const app = new Hono();
 
