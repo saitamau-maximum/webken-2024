@@ -36,7 +36,7 @@ todo.post("/", async (c) => {
     throw new Error("Failed to create task");
   }
 
-  return c.body({ message: "Created successfully" }, 200);
+  return c.body({ message: "Successfully created" }, 200);
 });
 
 todo.put("/:id", async (c) => {
