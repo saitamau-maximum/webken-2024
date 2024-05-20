@@ -15,10 +15,6 @@ todo.use(
 
 const db = new Database("test.db");
 
-const migrate = () => {
-  db.exec(TaskQuery.createTable);
-};
-
 const readAllStmt = db.prepare(TaskQuery.readAll);
 const insertStmt = db.prepare(TaskQuery.create);
 const updateTitleStmt = db.prepare(TaskQuery.updateTitleById);
@@ -91,7 +87,7 @@ const app = new Hono();
 
 app.route("/api/todo", todo);
 
-migrate();
+db.exec(TaskQuery.createTable);
 
 serve({
   fetch: app.fetch,
