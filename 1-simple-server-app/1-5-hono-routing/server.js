@@ -18,9 +18,9 @@ todo.get("/:id", (c) => c.json("入力されたID: " + c.req.param("id"), 200));
 
 // パス名には正規表現を使うことができる
 // https://hono.dev/api/routing
-todo.get('/:date{[0-9]+}/:title{[a-z]+}', (c) => {
-  const { date, title } = c.req.param()
-  return c.json({ date, title }, 200)
+todo.get("/:date{[0-9]+}/:title{[a-z]+}", (c) => {
+  const { date, title } = c.req.param();
+  return c.json({ date, title }, 200);
 });
 
 const app = new Hono();

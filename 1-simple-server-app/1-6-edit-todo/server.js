@@ -15,7 +15,9 @@ app.get("/", (c) => c.json(todoList, 200));
 app.post("/", async (c) => {
   const param = await c.req.json();
   const newTodo = {
-    id: String(Number(todoList.length === 0 ? "1" : todoList[todoList.length - 1].id) + 1),
+    id: String(
+      Number(todoList.length === 0 ? "1" : todoList[todoList.length - 1].id) + 1
+    ),
     completed: param.completed ? 1 : 0,
     title: param.title,
   };
