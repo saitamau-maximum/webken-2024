@@ -15,7 +15,7 @@ const deleteStmt = db.prepare(TaskQuery.deleteById);
 
 todo.get("/", (c) => {
   const tasks = readAllStmt.all();
-  return c.json(tasks);
+  return c.json(tasks, 200);
 });
 
 todo.post("/", async (c) => {
