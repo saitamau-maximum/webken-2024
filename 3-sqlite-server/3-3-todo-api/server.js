@@ -31,31 +31,88 @@ todo.get("/", async (c) => {
 
 todo.post("/", async (c) => {
   const param = await c.req.json();
+  const insertResult = insertStmt.run(param.title, param.completed ? "1" : "0");
 
-  try {
-    db.transaction(() => {
-      const insertResult = insertStmt.run(
-        param.title,
-        param.completed ? "1" : "0"
-      );
-
-      if (insertResult.changes === 0) {
-        throw new Error("Failed to create task");
-      }
-
-      if (param.title !== undefined) {
-        const updateResult = updateStmt.run(
-          param.title,
-          insertResult.lastInsertRowid
-        );
-
-        if (updateResult.changes === 0) {
-          throw new Error("Failed to update task title");
-        }
-      }
-    })();
+  if (insertResult.changes === 0) {
+    throw new Error("Failed to create task");
+  }
 
     return c.body({ message: "Created successfully" }, 200);
+    return c.body({ message: "Created successfully" }, 200);
+    return c.body({ message: "Created successfully" }, 200);
+    return c.body({ message: "Created successfully" }, 200);
+    return c.body({ message: "Created successfully" }, 200);
+  } catch (err) {
+    return c.json({ message: err.message }, 400);
+  }
+  return c.body({ message: "Created successfully" }, 200);
+  } catch (err) {
+    return c.json({ message: err.message }, 400);
+  }
+  return c.body({ message: "Created successfully" }, 200);
+    return c.body({ message: "Created successfully" }, 200);
+  } catch (err) {
+    return c.json({ message: err.message }, 400);
+  }
+  return c.body({ message: "Created successfully" }, 200);
+  } catch (err) {
+    return c.json({ message: err.message }, 400);
+  }
+  return c.body({ message: "Created successfully" }, 200);
+    return c.body({ message: "Created successfully" }, 200);
+    return c.body({ message: "Created successfully" }, 200);
+  } catch (err) {
+    return c.json({ message: err.message }, 400);
+  }
+  return c.body({ message: "Created successfully" }, 200);
+  } catch (err) {
+    return c.json({ message: err.message }, 400);
+  }
+  return c.body({ message: "Created successfully" }, 200);
+    return c.body({ message: "Created successfully" }, 200);
+  } catch (err) {
+    return c.json({ message: err.message }, 400);
+  }
+  return c.body({ message: "Created successfully" }, 200);
+  } catch (err) {
+    return c.json({ message: err.message }, 400);
+  }
+  return c.body({ message: "Created successfully" }, 200);
+    return c.body({ message: "Created successfully" }, 200);
+    return c.body({ message: "Created successfully" }, 200);
+    return c.body({ message: "Created successfully" }, 200);
+  } catch (err) {
+    return c.json({ message: err.message }, 400);
+  }
+  return c.body({ message: "Created successfully" }, 200);
+  } catch (err) {
+    return c.json({ message: err.message }, 400);
+  }
+  return c.body({ message: "Created successfully" }, 200);
+    return c.body({ message: "Created successfully" }, 200);
+  } catch (err) {
+    return c.json({ message: err.message }, 400);
+  }
+  return c.body({ message: "Created successfully" }, 200);
+  } catch (err) {
+    return c.json({ message: err.message }, 400);
+  }
+  return c.body({ message: "Created successfully" }, 200);
+    return c.body({ message: "Created successfully" }, 200);
+    return c.body({ message: "Created successfully" }, 200);
+  } catch (err) {
+    return c.json({ message: err.message }, 400);
+  }
+  return c.body({ message: "Created successfully" }, 200);
+  } catch (err) {
+    return c.json({ message: err.message }, 400);
+  }
+  return c.body({ message: "Created successfully" }, 200);
+    return c.body({ message: "Created successfully" }, 200);
+  } catch (err) {
+    return c.json({ message: err.message }, 400);
+  }
+  return c.body({ message: "Created successfully" }, 200);
   } catch (err) {
     return c.json({ message: err.message }, 400);
   }
@@ -70,26 +127,22 @@ todo.put("/:id", async (c) => {
   }
 
   if (param.title) {
-        const updateTitleResult = updateTitleStmt.run(param.title, id);
+    const updateTitleResult = updateTitleStmt.run(param.title, id);
 
-        if (updateTitleResult.changes === 0) {
-          throw new Error("Failed to update task title");
-        }
-      }
+    if (updateTitleResult.changes === 0) {
+      throw new Error("Failed to update task title");
+    }
+  }
 
   if (param.completed) {
-        const setCompleteStateResult = setCompleteStateStmt.run(
-          param.completed ? "1" : "0",
-          id
-        );
+    const setCompleteStateResult = setCompleteStateStmt.run(
+      param.completed ? "1" : "0",
+      id
+    );
 
-        if (setCompleteStateResult.changes === 0) {
-          throw new Error("Failed to update task completion state");
-        }
-      }
-    })();
-  } catch (err) {
-    return c.json({ message: err.message }, 400);
+    if (setCompleteStateResult.changes === 0) {
+      throw new Error("Failed to update task completion state");
+    }
   }
 
   return c.body({ message: "Task updated" }, 200);
@@ -97,20 +150,18 @@ todo.put("/:id", async (c) => {
 
 todo.delete("/:id", async (c) => {
   const id = c.req.param("id");
+  const deleteResult = deleteStmt.run(id);
 
-  try {
-    db.transaction(() => {
-      const deleteResult = deleteStmt.run(id);
-
-      if (deleteResult.changes === 0) {
-        throw new Error("Failed to delete task");
-      }
-    })();
-
-    return c.body({ message: "Task deleted" }, 200);
-  } catch (err) {
-    return c.json({ message: err.message }, 400);
+  if (deleteResult.changes === 0) {
+    throw new Error("Failed to delete task");
   }
+
+  return c.body({ message: "Task deleted" }, 200);
+});
+
+// error handling
+todo.onError((err, c) => {
+  return c.json({ message: err.message }, 400);
 });
 
 const app = new Hono();
