@@ -57,12 +57,7 @@ todo.post("/", async (c) => {
 
     return c.body(null, { status: 201 });
   } catch (err) {
-    return c.json(
-      { message: err.message },
-      {
-        status: 400,
-      }
-    );
+    return c.json({ message: err.message }, 400);
   }
 });
 
@@ -92,12 +87,7 @@ todo.put("/:id", async (c) => {
       }
     })();
   } catch (err) {
-    return c.json(
-      { message: err.message },
-      {
-        status: 400,
-      }
-    );
+    return c.json({ message: err.message }, 400);
   }
 
   return c.body(null, { status: 204 });
@@ -117,12 +107,7 @@ todo.delete("/:id", async (c) => {
 
     return c.body(null, { status: 204 });
   } catch (err) {
-    return c.json(
-      { message: err.message },
-      {
-        status: 400,
-      }
-    );
+    return c.json({ message: err.message }, 400);
   }
 });
 
