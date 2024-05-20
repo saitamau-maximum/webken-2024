@@ -25,8 +25,8 @@ const updateTitleStmt = db.prepare(TaskQuery.updateTitleById);
 const setCompleteStateStmt = db.prepare(TaskQuery.setCompleteStateById);
 const deleteStmt = db.prepare(TaskQuery.deleteById);
 
-todo.get("/", async (c) => {
-  const tasks = await readAllStmt.all();
+todo.get("/", (c) => {
+  const tasks = readAllStmt.all();
   return c.json(tasks);
 });
 
@@ -38,7 +38,7 @@ todo.post("/", async (c) => {
     throw new Error("Failed to create task");
   }
 
-  return c.body({ message: "Successfully created" }, 200);
+  return c.json({ message: "Successfully created" }, 200);
 });
 
 todo.put("/:id", async (c) => {
@@ -68,7 +68,7 @@ todo.put("/:id", async (c) => {
     }
   }
 
-  return c.body({ message: "Task updated" }, 200);
+  return c.json({ message: "Task updated" }, 200);
 });
 
 todo.delete("/:id", async (c) => {
@@ -79,7 +79,7 @@ todo.delete("/:id", async (c) => {
     throw new Error("Failed to delete task");
   }
 
-  return c.body({ message: "Task deleted" }, 200);
+  return c.json({ message: "Task deleted" }, 200);
 });
 
 // error handling
