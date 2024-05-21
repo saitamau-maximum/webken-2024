@@ -14,6 +14,11 @@ app.get("/", (c) => c.json(todoList, 200));
 
 app.post("/", async (c) => {
   const param = await c.req.json();
+
+  if (!param.title) {
+    throw new Error("Title must be provided");
+  }
+
   const newTodo = {
     id: String(
       Number(todoList.length === 0 ? "1" : todoList[todoList.length - 1].id) + 1

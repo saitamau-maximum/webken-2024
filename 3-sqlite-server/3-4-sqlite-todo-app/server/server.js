@@ -30,6 +30,11 @@ todo.get("/", (c) => {
 
 todo.post("/", async (c) => {
   const param = await c.req.json();
+
+  if (!param.title) {
+    throw new Error("Title must be provided");
+  }
+
   const insertResult = insertStmt.run(param.title, param.completed ? 1 : 0);
 
   if (insertResult.changes === 0) {
