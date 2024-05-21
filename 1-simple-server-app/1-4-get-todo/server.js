@@ -10,6 +10,8 @@ let todoList = [
   { id: "4", title: "ゲームをクリアする", completed: false },
 ];
 
+let currentId = 1;
+
 app.get("/", (c) => c.json(todoList, 200));
 
 app.post("/", async (c) => {
@@ -20,7 +22,7 @@ app.post("/", async (c) => {
   }
   
   const newTodo = {
-    id: String(Number(todoList.length === 0 ? "1" : todoList[todoList.length - 1].id) + 1),
+    id: String(currentId++),
     completed: param.completed ? 1 : 0,
     title: param.title,
   };
