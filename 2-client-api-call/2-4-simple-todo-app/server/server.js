@@ -6,7 +6,7 @@ const todo = new Hono();
 
 todo.use(cors({ origin: "*" }));
 
-let todoList = [
+const todoList = [
   { id: "1", title: "JavaScriptを勉強する", completed: false },
   { id: "2", title: "TODOアプリを自作する", completed: false },
   { id: "3", title: "漫画を読み切る", completed: true },
@@ -29,7 +29,8 @@ todo.post("/", async (c) => {
     completed: param.completed ? 1 : 0,
     title: param.title,
   };
-  todoList = [...todoList, newTodo];
+  
+  todoList.push(newTodo);
 
   return c.json({ message: "Successfully created" }, 200);
 });
