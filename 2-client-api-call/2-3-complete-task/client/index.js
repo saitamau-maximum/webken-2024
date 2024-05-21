@@ -1,5 +1,5 @@
 // サーバーからTODOリストを取得して表示する
-async function fetchTodoList() {
+async function fetchAndDisplayTodoList() {
   const response = await fetch("http://localhost:8000/api/todo");
   const todoList = await response.json();
 
@@ -29,8 +29,8 @@ async function updateTodoStatus(id, completed) {
   });
 
   if (response.status === 204) {
-    fetchTodoList();
+    fetchAndDisplayTodoList();
   }
 }
 
-document.addEventListener("DOMContentLoaded", fetchTodoList);
+document.addEventListener("DOMContentLoaded", fetchAndDisplayTodoList);

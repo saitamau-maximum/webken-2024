@@ -1,5 +1,5 @@
 // サーバーからTODOリストを取得して表示する
-async function fetchTodoList() {
+async function fetchAndDisplayTodoList() {
   const response = await fetch("http://localhost:8000/api/todo");
   const todoList = await response.json();
 
@@ -32,7 +32,7 @@ async function updateTodoStatus(id, completed) {
   });
 
   if (response.status === 200) {
-    fetchTodoList();
+    fetchAndDisplayTodoList();
   }
 }
 
@@ -47,7 +47,7 @@ async function updateTodoTitle(id, title) {
   });
 
   if (response.status === 200) {
-    fetchTodoList();
+    fetchAndDisplayTodoList();
   }
 }
 
@@ -67,7 +67,7 @@ async function addTodo() {
 
     if (response.status === 200) {
       todoTitleInput.value = "";
-      fetchTodoList();
+      fetchAndDisplayTodoList();
     }
   }
 }
@@ -79,7 +79,7 @@ async function deleteTodo(id) {
   });
 
   if (response.status === 200) {
-    fetchTodoList();
+    fetchAndDisplayTodoList();
   }
 }
 
@@ -90,4 +90,4 @@ addTodoForm.addEventListener("submit", function (event) {
   addTodo();
 });
 
-document.addEventListener("DOMContentLoaded", fetchTodoList);
+document.addEventListener("DOMContentLoaded", fetchAndDisplayTodoList);

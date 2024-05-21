@@ -11,8 +11,7 @@
     <div id="todo-list"></div>
 
     <script>
-      // サーバーからTODOリストを取得して表示する
-      async function fetchTodoList() {
+      const fetchAndDisplayTodoList = async () => {
         const response = await fetch("http://localhost:8000/api/todo");
         const todoList = await response.json();
 
@@ -27,9 +26,9 @@
         `;
           todoListElement.appendChild(todoElement);
         });
-      }
+      };
 
-      document.addEventListener("DOMContentLoaded", fetchTodoList);
+      document.addEventListener("DOMContentLoaded", fetchAndDisplayTodoList);
     </script>
   </body>
 </html>
