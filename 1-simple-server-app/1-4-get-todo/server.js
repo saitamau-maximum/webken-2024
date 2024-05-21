@@ -4,13 +4,11 @@ import { Hono } from "hono";
 const app = new Hono();
 
 const todoList = [
-  { id: "1", title: "JavaScriptを勉強する", completed: false },
-  { id: "2", title: "TODOアプリを自作する", completed: false },
-  { id: "3", title: "漫画を読み切る", completed: true },
-  { id: "4", title: "ゲームをクリアする", completed: false },
+  { title: "JavaScriptを勉強する", completed: false },
+  { title: "TODOアプリを自作する", completed: false },
+  { title: "漫画を読み切る", completed: true },
+  { title: "ゲームをクリアする", completed: false },
 ];
-
-let currentId = 1;
 
 app.get("/", (c) => c.json(todoList, 200));
 
@@ -22,7 +20,6 @@ app.post("/", async (c) => {
   }
   
   const newTodo = {
-    id: String(currentId++),
     completed: param.completed ? 1 : 0,
     title: param.title,
   };
