@@ -85,11 +85,8 @@ const deleteTodo = async (id) => {
   }
 };
 
-// フォームが送信されたときにaddTodo関数を呼び出す
-const addTodoForm = document.getElementById("add-todo-form");
-addTodoForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-  addTodo();
-});
+// ボタンが押されたときにaddTodo関数を呼び出す
+const addButton = document.getElementById("add-button");
+addButton.addEventListener("click", addTodo);
 
 document.addEventListener("DOMContentLoaded", fetchAndDisplayTodoList);
