@@ -1,7 +1,7 @@
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 
-const todo = new Hono();
+const app = new Hono();
 
 const todoList = [
   { title: "JavaScriptを勉強する", completed: false },
@@ -11,25 +11,17 @@ const todoList = [
 ];
 
 // GET /
-todo.get("/", (c) => c.json(todoList, 200));
+app.get("/todo/", (c) => c.json(todoList, 200));
 
 // GET /:id
-todo.get("/:id", (c) => c.json("入力されたID: " + c.req.param("id"), 200));
+app.get("/todo/:id", (c) => c.json("入力されたID: " + c.req.param("id"), 200));
 
 // パス名には正規表現を使うことができる
 // https://hono.dev/api/routing
-todo.get("/:date{[0-9]+}/:title{[a-z]+}", (c) => {
+app.get("/todo/:date{[0-9]+}/:title{[a-z]+}", (c) => {
   const { date, title } = c.req.param();
   return c.json({ date, title }, 200);
 });
-
-const app = new Hono();
-
-// todo.getのURLの前に、/api/todoを挿入
-// これによって、 /api/todo と /api/todo/:id でアクセスできるようになる
-app.route("/api/todo", todo);
-
-app.get("/", (c) => c.text("TODOアプリへようこそ"));
 
 serve({
   fetch: app.fetch,

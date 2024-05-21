@@ -3,7 +3,7 @@ import { Hono } from "hono";
 import Database from "better-sqlite3";
 import { TaskQuery } from "./queries.js";
 
-const todo = new Hono();
+const app = new Hono();
 
 const db = new Database("test.db");
 
@@ -15,12 +15,12 @@ const updateTitleStmt = db.prepare(TaskQuery.updateTitleById);
 const setCompleteStateStmt = db.prepare(TaskQuery.setCompleteStateById);
 const deleteStmt = db.prepare(TaskQuery.deleteById);
 
-todo.get("/", (c) => {
+app.get("/api/todo", (c) => {
   const tasks = readAllStmt.all();
   return c.json(tasks, 200);
 });
 
-todo.post("/", async (c) => {
+app.post("/api/todo", async (c) => {
   const param = await c.req.json();
   if (!param.title) {
     throw new Error("Title must be provided");
@@ -35,7 +35,7 @@ todo.post("/", async (c) => {
   return c.json({ message: "Successfully created" }, 200);
 });
 
-todo.put("/:id", async (c) => {
+app.put("/api/todo/:id", async (c) => {
   const param = await c.req.json();
   const id = c.req.param("id");
 
@@ -65,7 +65,7 @@ todo.put("/:id", async (c) => {
   return c.json({ message: "Task updated" }, 200);
 });
 
-todo.delete("/:id", async (c) => {
+app.delete("/api/todo/:id", async (c) => {
   const id = c.req.param("id");
   const deleteResult = deleteStmt.run(id);
 
@@ -77,13 +77,9 @@ todo.delete("/:id", async (c) => {
 });
 
 // error handling
-todo.onError((err, c) => {
+app.onError((err, c) => {
   return c.json({ message: err.message }, 400);
 });
-
-const app = new Hono();
-
-app.route("/api/todo", todo);
 
 serve({
   fetch: app.fetch,
