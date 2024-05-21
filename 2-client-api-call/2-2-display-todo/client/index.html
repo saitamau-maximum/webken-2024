@@ -11,11 +11,12 @@
     <div id="todo-list"></div>
 
     <script>
+      const todoListElement = document.getElementById("todo-list");
+
       const fetchAndDisplayTodoList = async () => {
         const response = await fetch("http://localhost:8000/api/todo");
         const todoList = await response.json();
 
-        const todoListElement = document.getElementById("todo-list");
         todoListElement.innerHTML = "";
 
         todoList.forEach((todo) => {
