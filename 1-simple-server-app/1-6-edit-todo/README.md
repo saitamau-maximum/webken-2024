@@ -14,24 +14,24 @@ npm run start
 #### TODO追加コマンド
 以下のコマンドを実行後にブラウザをリロードすると、TODOが追加されていることが確認できます。
 ```bash
-curl -o /dev/null -w "%{http_code}\n" -s -X POST -H "Content-Type: application/json" -d '{"title": "次回のWeb研に出席する"}' http://localhost:8000
+curl -X POST -H "Content-Type: application/json" -d '{"title": "次回のWeb研に出席する"}' http://localhost:8000
 ```
 
 #### TODO変更コマンド
 以下のコマンドを実行後にブラウザをリロードすると、「TODOアプリを自作する」のタスクが完了済みになっていることが確認できます。
 ```bash
-curl -o /dev/null -w "%{http_code}\n" -s -X PUT -H "Content-Type: application/json" -d '{"completed": true}' http://localhost:8000/2
+curl -X PUT -H "Content-Type: application/json" -d '{"completed": true}' http://localhost:8000/2
 ```
 
 また、以下のコマンドを実行後にブラウザをリロードすると、「JavaScriptを勉強する」のタイトルが「Node.jsを勉強する」になっていることが確認できます。
 ```bash
-curl -o /dev/null -w "%{http_code}\n" -s -X PUT -H "Content-Type: application/json" -d '{"title": "Node.jsを勉強する"}' http://localhost:8000/1
+curl -X PUT -H "Content-Type: application/json" -d '{"title": "Node.jsを勉強する"}' http://localhost:8000/1
 ```
 
 #### TODO削除コマンド
 以下のコマンドを実行後にブラウザをリロードすると、「漫画を読み切る」のタスクが削除されていることが確認できます。
 ```bash
-curl -o /dev/null -w "%{http_code}\n" -s -X DELETE http://localhost:8000/3
+curl -X DELETE http://localhost:8000/3
 ```
 
 #### ステータスコード早見表
