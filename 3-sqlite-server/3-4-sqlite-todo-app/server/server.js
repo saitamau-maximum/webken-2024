@@ -7,7 +7,6 @@ import { TaskQuery } from "./queries.js";
 const todo = new Hono();
 
 todo.use(
-  "*",
   cors({
     origin: "*",
   })

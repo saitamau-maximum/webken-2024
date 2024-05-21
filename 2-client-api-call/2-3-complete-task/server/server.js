@@ -5,7 +5,6 @@ import { cors } from "hono/cors";
 const todo = new Hono();
 
 todo.use(
-  "*",
   cors({
     origin: "*",
   })
