@@ -1,5 +1,5 @@
 // サーバーからTODOリストを取得して表示する
-async function fetchAndDisplayTodoList() {
+const fetchAndDisplayTodoList = async () => {
   const response = await fetch("http://localhost:8000/api/todo");
   const todoList = await response.json();
 
@@ -19,10 +19,10 @@ async function fetchAndDisplayTodoList() {
     `;
     todoListElement.appendChild(todoElement);
   });
-}
+};
 
 // サーバー上のTODOアイテムの completed を更新する
-async function updateTodoStatus(id, completed) {
+const updateTodoStatus = async (id, completed) => {
   const response = await fetch(`http://localhost:8000/api/todo/${id}`, {
     method: "PUT",
     headers: {
@@ -34,10 +34,10 @@ async function updateTodoStatus(id, completed) {
   if (response.status === 204) {
     fetchAndDisplayTodoList();
   }
-}
+};
 
 // サーバー上のTODOアイテムの title を更新する
-async function updateTodoTitle(id, title) {
+const updateTodoTitle = async (id, title) => {
   const response = await fetch(`http://localhost:8000/api/todo/${id}`, {
     method: "PUT",
     headers: {
@@ -49,10 +49,10 @@ async function updateTodoTitle(id, title) {
   if (response.status === 204) {
     fetchAndDisplayTodoList();
   }
-}
+};
 
 // サーバーに新しいTODOアイテムを追加する
-async function addTodo() {
+const addTodo = async () => {
   const todoTitleInput = document.getElementById("todo-title");
   const todoTitle = todoTitleInput.value;
 
@@ -70,10 +70,10 @@ async function addTodo() {
       fetchAndDisplayTodoList();
     }
   }
-}
+};
 
 // サーバーからTODOアイテムを削除する
-async function deleteTodo(id) {
+const deleteTodo = async (id) => {
   const response = await fetch(`http://localhost:8000/api/todo/${id}`, {
     method: "DELETE",
   });
@@ -81,11 +81,11 @@ async function deleteTodo(id) {
   if (response.status === 204) {
     fetchAndDisplayTodoList();
   }
-}
+};
 
 // フォームが送信されたときにaddTodo関数を呼び出す
 const addTodoForm = document.getElementById("add-todo-form");
-addTodoForm.addEventListener("submit", function (event) {
+addTodoForm.addEventListener("submit", (event) => {
   event.preventDefault();
   addTodo();
 });

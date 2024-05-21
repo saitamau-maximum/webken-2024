@@ -1,5 +1,5 @@
 // サーバーからTODOリストを取得して表示する
-async function fetchAndDisplayTodoList() {
+const fetchAndDisplayTodoList = async () => {
   const response = await fetch("http://localhost:8000/api/todo");
   const todoList = await response.json();
 
@@ -16,10 +16,10 @@ async function fetchAndDisplayTodoList() {
     `;
     todoListElement.appendChild(todoElement);
   });
-}
+};
 
 // サーバー上のTODOアイテムの completed を更新する
-async function updateTodoStatus(id, completed) {
+const updateTodoStatus = async (id, completed) => {
   const response = await fetch(`http://localhost:8000/api/todo/${id}`, {
     method: "PUT",
     headers: {
@@ -31,6 +31,6 @@ async function updateTodoStatus(id, completed) {
   if (response.status === 204) {
     fetchAndDisplayTodoList();
   }
-}
+};
 
 document.addEventListener("DOMContentLoaded", fetchAndDisplayTodoList);
