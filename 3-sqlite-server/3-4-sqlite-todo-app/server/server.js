@@ -52,7 +52,7 @@ todo.put("/:id", async (c) => {
     throw new Error("Either title or completed must be provided");
   }
 
-  if (param.title !== undefined) {
+  if (!param.title) {
     const updateTitleResult = updateTitleStmt.run(param.title, id);
 
     if (updateTitleResult.changes === 0) {
