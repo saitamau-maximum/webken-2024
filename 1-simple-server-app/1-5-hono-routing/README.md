@@ -16,4 +16,3 @@ npm run start
 - http://localhost:8000
 - http://localhost:8000/api/todo
 - http://localhost:8000/api/todo/123
-- http://localhost:8000/api/todo/20240517/foo
