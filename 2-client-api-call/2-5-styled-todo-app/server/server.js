@@ -4,11 +4,7 @@ import { cors } from "hono/cors";
 
 const todo = new Hono();
 
-todo.use(
-  cors({
-    origin: "*",
-  })
-);
+todo.use(cors({ origin: "*" }));
 
 let todoList = [
   { id: "1", title: "JavaScriptを勉強する", completed: false },

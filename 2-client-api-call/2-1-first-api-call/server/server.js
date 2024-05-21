@@ -4,11 +4,7 @@ import { cors } from "hono/cors";
 
 const app = new Hono();
 
-app.use(
-  cors({
-    origin: "*",
-  })
-);
+app.use(cors({ origin: "*" }));
 
 app.get("/", (c) => {
   return c.text("Hello from Node.js server!");
