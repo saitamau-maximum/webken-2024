@@ -43,19 +43,16 @@ app.put("/:id", async (c) => {
     throw new Error("Either title or completed must be provided");
   }
 
+  const todo = todoList.find((todo) => todo.id === id);
+  if (!todo) {
+    throw new Error("Failed to update task title");
+  }
+  
   if (!param.title) {
-    const todo = todoList.find((todo) => todo.id === id);
-    if (!todo) {
-      throw new Error("Failed to update task title");
-    }
     todo.title = param.title;
   }
 
   if (param.completed !== undefined) {
-    const todo = todoList.find((todo) => todo.id === id);
-    if (!todo) {
-      throw new Error("Failed to update task completion state");
-    }
     todo.completed = param.completed;
   }
 
