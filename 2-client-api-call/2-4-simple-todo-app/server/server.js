@@ -61,11 +61,11 @@ app.put("/api/todo/:id", async (c) => {
 
 app.delete("/api/todo/:id", async (c) => {
   const id = c.req.param("id");
-  const todo = todoList.find((todo) => todo.id === id);
-  if (!todo) {
+  const todoIndex = todoList.findIndex((todo) => todo.id === id);
+  if (todoIndex === -1) {
     throw new Error("Failed to delete task");
   }
-  todoList = todoList.filter((todo) => todo.id !== id);
+  todoList.splice(todoIndex, 1);
 
   return c.json({ message: "Task deleted" }, 200);
 });
