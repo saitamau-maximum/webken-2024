@@ -15,9 +15,9 @@ const todoList = [
 
 let currentId = 1;
 
-app.get("/", (c) => c.json(todoList, 200));
+app.get("/api/todo", (c) => c.json(todoList, 200));
 
-app.post("/", async (c) => {
+app.post("/api/todo", async (c) => {
   const param = await c.req.json();
 
   if (!param.title) {
@@ -35,7 +35,7 @@ app.post("/", async (c) => {
   return c.json({ message: "Successfully created" }, 200);
 });
 
-app.put("/:id", async (c) => {
+app.put("/api/todo/:id", async (c) => {
   const param = await c.req.json();
   const id = c.req.param("id");
 
@@ -59,7 +59,7 @@ app.put("/:id", async (c) => {
   return c.json({ message: "Task updated" }, 200);
 });
 
-app.delete("/:id", async (c) => {
+app.delete("/api/todo/:id", async (c) => {
   const id = c.req.param("id");
   const todo = todoList.find((todo) => todo.id === id);
   if (!todo) {
