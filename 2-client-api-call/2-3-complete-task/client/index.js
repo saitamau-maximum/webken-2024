@@ -14,11 +14,11 @@ const fetchAndDisplayTodoList = async () => {
     checkboxElement.type = "checkbox";
     // <input type="checkbox" checked />
     checkboxElement.checked = todo.completed;
-    // <input type="checkbox" onchange="updateTodoStatus('${todo.id}', this.checked)" />
-    checkboxElement.onchange = () => {
-      updateTodoStatus(todo.id, checkboxElement.checked);
-    };
-    // TODO: onChangeを使わず、addEventListenerを使ってイベントリスナーを登録する
+
+    // inputタグの状態が変更されたときに、updateTodoStatus関数を呼び出す
+    checkboxElement.addEventListener("change", function () {
+      updateTodoStatus(todo.id, this.checked);
+    });
 
     // spanタグを生成
     // <span></span>
@@ -32,17 +32,16 @@ const fetchAndDisplayTodoList = async () => {
 
     // divタグの子要素として、作成したinputタグとspanタグを追加
     // <span>
-    //   <input type="checkbox" onchange="updateTodoStatus('${todo.id}', this.checked)" />
+    //   <input type="checkbox" checked />
     //   <span>...</span>
     // </span>
     todoElement.appendChild(checkboxElement);
     todoElement.appendChild(span);
 
-    // TODO: onChangeに関する記述を消す
     // idが"todo-list"のdivタグの子要素として、上で作成したdivタグを追加
     // <div id=""todo-list">
     //   <div>
-    //     <input type="checkbox" onchange="updateTodoStatus('${todo.id}', this.checked)" />
+    //     <input type="checkbox" checked />
     //     <span>...</span>
     //   </div>
     // </div>
