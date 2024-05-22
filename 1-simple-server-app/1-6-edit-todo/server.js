@@ -45,7 +45,7 @@ app.put("/:id", async (c) => {
     throw new Error("Failed to update task title");
   }
   
-  if (!param.title) {
+  if (param.title) {
     todo.title = param.title;
   }
 
