@@ -7,18 +7,49 @@ const fetchAndDisplayTodoList = async () => {
   todoListElement.innerHTML = "";
 
   todoList.forEach((todo) => {
+    // チェックボックスを生成
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.checked = todo.completed;
+
+    // チェックボックスの状態が変更されたときに、updateTodoStatus関数を呼び出す
+    checkbox.addEventListener("change", function () {
+      updateTodoStatus(todo.id, this.checked);
+    });
+
+    // テキストボックスを生成
+    // <input type="text" class="task-textbox" value="..." />
+    const textbox = document.createElement("input");
+    textbox.type = "text";
+    textbox.value = todo.title;
+    textbox.classList.add("task-textbox");
+
+    // テキストボックスの値が変更されたときに、updateTodoTitle関数を呼び出す
+    textbox.addEventListener("change", function () {
+      updateTodoTitle(todo.id, this.value);
+    });
+
+    // 削除ボタンを生成
+    // <button class="delete-button">削除</button>
+    const deleteButton = document.createElement("button");
+    deleteButton.textContent = "削除";
+    deleteButton.classList.add("delete-button");
+
+    // 削除ボタンがクリックされたときに、deleteTodo関数を呼び出す
+    deleteButton.addEventListener("click", function () {
+      deleteTodo(todo.id);
+    });
+
+    // <div>
+    //   <input type="checkbox" />
+    //   <input type="text" class="task-textbox" value="..." />
+    //   <button class="delete-button">削除</button>
+    // </div>
     const todoElement = document.createElement("div");
-    todoElement.innerHTML = `
-      <input type="checkbox" ${
-        todo.completed ? "checked" : ""
-      } onchange="updateTodoStatus('${todo.id}', this.checked)">
-      <input type="text" class="task-textbox" value="${
-        todo.title
-      }" onchange="updateTodoTitle('${todo.id}', this.value)">
-      <button class="delete-button" onclick="deleteTodo('${
-        todo.id
-      }')">削除</button>
-    `;
+    todoElement.appendChild(checkbox);
+    todoElement.appendChild(textbox);
+    todoElement.appendChild(deleteButton);
+
     todoListElement.appendChild(todoElement);
   });
 };

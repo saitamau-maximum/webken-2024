@@ -7,16 +7,47 @@ const fetchAndDisplayTodoList = async () => {
   todoListElement.innerHTML = "";
 
   todoList.forEach((todo) => {
+    // チェックボックスを生成
+    const checkboxElement = document.createElement("input");
+    checkboxElement.type = "checkbox";
+    checkboxElement.checked = todo.completed;
+
+    // チェックボックスの状態が変更されたときに、updateTodoStatus関数を呼び出す
+    checkboxElement.addEventListener("change", function () {
+      updateTodoStatus(todo.id, this.checked);
+    });
+
+    // テキストボックスを生成
+    // <input type="text" value="..." />
+    const inputElement = document.createElement("input");
+    inputElement.type = "text";
+    inputElement.value = todo.title;
+
+    // テキストボックスの値が変更されたときに、updateTodoTitle関数を呼び出す
+    inputElement.addEventListener("change", function () {
+      updateTodoTitle(todo.id, this.value);
+    });
+
+    // 削除ボタンを生成
+    // <button>削除</button>
+    const deleteButtonElement = document.createElement("button");
+    deleteButtonElement.textContent = "削除";
+
+    // 削除ボタンがクリックされたときに、deleteTodo関数を呼び出す
+    deleteButtonElement.addEventListener("click", function () {
+      deleteTodo(todo.id);
+    });
+
+    // <div>
+    //   <input type="checkbox" />
+    //   <input type="text" value="..." />
+    //   <button>削除</button>
+    // </div>
     const todoElement = document.createElement("div");
-    todoElement.innerHTML = `
-      <input type="checkbox" ${
-        todo.completed ? "checked" : ""
-      } onchange="updateTodoStatus('${todo.id}', this.checked)">
-      <input type="text" value="${todo.title}" onchange="updateTodoTitle('${
-      todo.id
-    }', this.value)">
-      <button onclick="deleteTodo('${todo.id}')">削除</button>
-    `;
+    todoElement.appendChild(checkboxElement);
+    todoElement.appendChild(inputElement);
+    todoElement.appendChild(deleteButtonElement);
+
     todoListElement.appendChild(todoElement);
   });
 };
