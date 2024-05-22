@@ -33,7 +33,7 @@ const updateTodoStatus = async (id, completed) => {
     body: JSON.stringify({ completed }),
   });
 
-  if (response.status === 204) {
+  if (response.status === 200) {
     fetchAndDisplayTodoList();
   }
 };
@@ -48,7 +48,7 @@ const updateTodoTitle = async (id, title) => {
     body: JSON.stringify({ title }),
   });
 
-  if (response.status === 204) {
+  if (response.status === 200) {
     fetchAndDisplayTodoList();
   }
 };
@@ -67,7 +67,7 @@ const addTodo = async () => {
       body: JSON.stringify({ title: todoTitle }),
     });
 
-    if (response.status === 201) {
+    if (response.status === 200) {
       todoTitleInput.value = "";
       fetchAndDisplayTodoList();
     }
@@ -80,7 +80,7 @@ const deleteTodo = async (id) => {
     method: "DELETE",
   });
 
-  if (response.status === 204) {
+  if (response.status === 200) {
     fetchAndDisplayTodoList();
   }
 };

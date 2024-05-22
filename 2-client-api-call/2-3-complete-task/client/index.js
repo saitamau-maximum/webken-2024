@@ -28,7 +28,7 @@ const updateTodoStatus = async (id, completed) => {
     body: JSON.stringify({ completed }),
   });
 
-  if (response.status === 204) {
+  if (response.status === 200) {
     fetchAndDisplayTodoList();
   }
 };
