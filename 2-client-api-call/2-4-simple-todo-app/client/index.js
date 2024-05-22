@@ -8,12 +8,12 @@ const fetchAndDisplayTodoList = async () => {
 
   todoList.forEach((todo) => {
     // チェックボックスを生成
-    const checkboxElement = document.createElement("input");
-    checkboxElement.type = "checkbox";
-    checkboxElement.checked = todo.completed;
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.checked = todo.completed;
 
     // チェックボックスの状態が変更されたときに、updateTodoStatus関数を呼び出す
-    checkboxElement.addEventListener("change", function () {
+    checkbox.addEventListener("change", function () {
       updateTodoStatus(todo.id, this.checked);
     });
 
@@ -44,7 +44,7 @@ const fetchAndDisplayTodoList = async () => {
     //   <button>削除</button>
     // </div>
     const todoElement = document.createElement("div");
-    todoElement.appendChild(checkboxElement);
+    todoElement.appendChild(checkbox);
     todoElement.appendChild(inputElement);
     todoElement.appendChild(deleteButtonElement);
 

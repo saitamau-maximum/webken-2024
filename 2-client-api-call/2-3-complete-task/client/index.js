@@ -9,14 +9,14 @@ const fetchAndDisplayTodoList = async () => {
   todoList.forEach((todo) => {
     // inputタグを生成
     // <input />
-    const checkboxElement = document.createElement("input");
+    const checkbox = document.createElement("input");
     // <input type="checkbox" />
-    checkboxElement.type = "checkbox";
+    checkbox.type = "checkbox";
     // <input type="checkbox" checked />
-    checkboxElement.checked = todo.completed;
+    checkbox.checked = todo.completed;
 
     // inputタグの状態が変更されたときに、updateTodoStatus関数を呼び出す
-    checkboxElement.addEventListener("change", function () {
+    checkbox.addEventListener("change", function () {
       updateTodoStatus(todo.id, this.checked);
     });
 
@@ -35,7 +35,7 @@ const fetchAndDisplayTodoList = async () => {
     //   <input type="checkbox" checked />
     //   <span>...</span>
     // </span>
-    todoElement.appendChild(checkboxElement);
+    todoElement.appendChild(checkbox);
     todoElement.appendChild(span);
 
     // idが"todo-list"のdivタグの子要素として、上で作成したdivタグを追加
