@@ -13,7 +13,7 @@ let todoList = [
   { id: "4", title: "ゲームをクリアする", completed: false },
 ];
 
-app.get("/api/todo/", (c) => c.json(todoList, 200));
+app.get("/api/todo", (c) => c.json(todoList, 200));
 
 app.put("/api/todo/:id", async (c) => {
   const param = await c.req.json();
