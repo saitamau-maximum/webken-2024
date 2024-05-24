@@ -26,7 +26,7 @@ app.post("/api/todo", async (c) => {
   
   const newTodo = {
     id: String(currentId++),
-    completed: param.completed ? 1 : 0,
+    completed: !!param.completed,
     title: param.title,
   };
   

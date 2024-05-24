@@ -20,7 +20,7 @@ app.post("/", async (c) => {
   }
   
   const newTodo = {
-    completed: param.completed ? 1 : 0,
+    completed: !!param.completed,
     title: param.title,
   };
   
