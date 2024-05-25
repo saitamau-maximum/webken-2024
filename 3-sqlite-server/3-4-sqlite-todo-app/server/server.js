@@ -58,7 +58,7 @@ app.put("/api/todo/:id", async (c) => {
   if (param.completed !== undefined) {
     const setCompleteStateResult = setCompleteStateStmt.run(
       param.completed ? 1 : 0,
-      id
+      id,
     );
 
     if (setCompleteStateResult.changes === 0) {

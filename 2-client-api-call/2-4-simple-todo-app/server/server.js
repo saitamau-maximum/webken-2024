@@ -23,13 +23,13 @@ app.post("/api/todo", async (c) => {
   if (!param.title) {
     throw new Error("Title must be provided");
   }
-  
+
   const newTodo = {
     id: String(currentId++),
     completed: !!param.completed,
     title: param.title,
   };
-  
+
   todoList.push(newTodo);
 
   return c.json({ message: "Successfully created" }, 200);
@@ -47,7 +47,7 @@ app.put("/api/todo/:id", async (c) => {
   if (!todo) {
     throw new Error("Failed to update task title");
   }
-  
+
   if (param.title) {
     todo.title = param.title;
   }

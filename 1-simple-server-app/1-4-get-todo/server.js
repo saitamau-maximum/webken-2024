@@ -18,12 +18,12 @@ app.post("/", async (c) => {
   if (!param.title) {
     throw new Error("Title must be provided");
   }
-  
+
   const newTodo = {
     completed: !!param.completed,
     title: param.title,
   };
-  
+
   todoList.push(newTodo);
 
   return c.json({ message: "Successfully created" }, 200);
