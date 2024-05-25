@@ -14,7 +14,9 @@ const todoList = [
 app.get("/api/todo", (c) => c.json(todoList, 200));
 
 // GET /api/todo/:id
-app.get("/api/todo/:id", (c) => c.json("入力されたID: " + c.req.param("id"), 200));
+app.get("/api/todo/:id", (c) =>
+  c.text("入力されたID: " + c.req.param("id"), 200)
+);
 
 serve({
   fetch: app.fetch,
