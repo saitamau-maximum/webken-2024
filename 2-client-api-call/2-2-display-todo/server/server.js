@@ -2,9 +2,9 @@ import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 
-const todo = new Hono();
+const app = new Hono();
 
-todo.use(cors({ origin: "*" }));
+app.use(cors({ origin: "*" }));
 
 let todoList = [
   { title: "JavaScriptを勉強する", completed: false },
@@ -13,11 +13,7 @@ let todoList = [
   { title: "ゲームをクリアする", completed: false },
 ];
 
-todo.get("/", (c) => c.json(todoList, 200));
-
-const app = new Hono();
-
-app.route("/api/todo", todo);
+app.get("/api/todo", (c) => c.json(todoList, 200));
 
 serve({
   fetch: app.fetch,
