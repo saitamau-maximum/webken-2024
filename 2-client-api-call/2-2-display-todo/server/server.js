@@ -6,7 +6,7 @@ const app = new Hono();
 
 app.use(cors({ origin: "*" }));
 
-let todoList = [
+const todoList = [
   { title: "JavaScriptを勉強する", completed: false },
   { title: "TODOアプリを自作する", completed: false },
   { title: "漫画を読み切る", completed: true },
