@@ -1,9 +1,9 @@
 # 1-simple-server-app
 
-## 1-2-first-http-server
+## 1-3-first-hono-app
 
 ### 実行方法
 
 ```bash
-node server.js
+npm start
 ```
