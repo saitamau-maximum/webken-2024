@@ -1,6 +1,6 @@
 # 1-simple-server-app
 
-## 1-3-first-hono-app
+## 1-2-first-http-server
 
 ### 実行方法
 
