@@ -1,5 +1,5 @@
 {
-  "name": "1-4-get-todo",
+  "name": "1-7-hono-routing",
   "type": "module",
   "dependencies": {
     "@hono/node-server": "^1.11.1",

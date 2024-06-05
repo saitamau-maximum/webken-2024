@@ -1,10 +1,10 @@
 # 1-simple-server-app
 
-## 1-4-get-todo
+## 1-5-get-todo
 
 ### 実行環境
 
-`1-simple-server-app/1-4-get-todo` に `cd` した上で、以下のコマンドを実行する必要があります:
+`1-simple-server-app/1-5-get-todo` に `cd` した上で、以下のコマンドを実行する必要があります:
 
 ```bash
 npm install

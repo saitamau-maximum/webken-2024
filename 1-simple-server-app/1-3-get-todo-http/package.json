@@ -1,5 +1,5 @@
 {
-  "name": "1-x-get-todo-http",
+  "name": "1-3-get-todo-http",
   "type": "module",
   "scripts": {
     "start": "node server.js"
