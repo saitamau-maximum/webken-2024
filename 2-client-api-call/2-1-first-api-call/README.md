@@ -4,7 +4,7 @@
 
 ### サーバーの実行環境
 
-`2-client-api-call/2-1-first-api-call` に `cd` した上で、以下のコマンドを実行する必要があります:
+`2-client-api-call/2-1-first-api-call/server` に `cd` した上で、以下のコマンドを実行する必要があります:
 
 ```bash
 npm install
