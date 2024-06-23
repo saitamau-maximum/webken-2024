@@ -5,5 +5,5 @@
 ### 実行方法
 
 ```bash
-npm start
+npm run start
 ```
