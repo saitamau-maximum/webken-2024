@@ -2,82 +2,77 @@ import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 
-const todo = new Hono();
+const app = new Hono();
 
-todo.use(
-  "*",
-  cors({
-    origin: "null",
-  })
-);
+app.use(cors({ origin: "*" }));
 
-let todoList = [
+const todoList = [
   { id: "1", title: "JavaScriptを勉強する", completed: false },
   { id: "2", title: "TODOアプリを自作する", completed: false },
   { id: "3", title: "漫画を読み切る", completed: true },
   { id: "4", title: "ゲームをクリアする", completed: false },
 ];
 
-todo.get(
-  "/",
-  (c) =>
-    new Response(JSON.stringify(todoList), {
-      headers: { "Content-Type": "application/json" },
-    })
-);
+let currentId = 1;
 
-todo.post("/", async (c) => {
+app.get("/api/todo", (c) => c.json(todoList, 200));
+
+app.post("/api/todo", async (c) => {
   const param = await c.req.json();
+
+  if (!param.title) {
+    throw new Error("Title must be provided");
+  }
+
   const newTodo = {
-    id: String(
-      Number(todoList.length === 0 ? "1" : todoList[todoList.length - 1].id) + 1
-    ),
-    completed: false,
+    id: String(currentId++),
+    completed: !!param.completed,
     title: param.title,
   };
-  todoList = [...todoList, newTodo];
 
-  return new Response(JSON.stringify(newTodo), {
-    status: 201,
-    headers: { "Content-Type": "application/json" },
-  });
+  todoList.push(newTodo);
+
+  return c.json({ message: "Successfully created" }, 200);
 });
 
-todo.put("/:id", async (c) => {
-  const id = c.req.param("id");
-  const todo = todoList.find((todo) => todo.id === id);
-  if (!todo) {
-    return new Response(JSON.stringify({ message: "not found" }), {
-      status: 404,
-      headers: { "Content-Type": "application/json" },
-    });
-  }
+app.put("/api/todo/:id", async (c) => {
   const param = await c.req.json();
-
-  todo.title = param.title || todo.title;
-  todo.completed =
-    param.completed !== undefined ? param.completed : todo.completed;
-
-  return new Response(null, { status: 204 });
-});
-
-todo.delete("/:id", async (c) => {
   const id = c.req.param("id");
+
+  if (!param.title && param.completed === undefined) {
+    throw new Error("Either title or completed must be provided");
+  }
+
   const todo = todoList.find((todo) => todo.id === id);
   if (!todo) {
-    return new Response(JSON.stringify({ message: "not found" }), {
-      status: 404,
-      headers: { "Content-Type": "application/json" },
-    });
+    throw new Error("Failed to update task title");
   }
-  todoList = todoList.filter((todo) => todo.id !== id);
 
-  return new Response(null, { status: 204 });
+  if (param.title) {
+    todo.title = param.title;
+  }
+
+  if (param.completed !== undefined) {
+    todo.completed = param.completed;
+  }
+
+  return c.json({ message: "Task updated" }, 200);
 });
 
-const app = new Hono();
+app.delete("/api/todo/:id", async (c) => {
+  const id = c.req.param("id");
+  const todoIndex = todoList.findIndex((todo) => todo.id === id);
+  if (todoIndex === -1) {
+    throw new Error("Failed to delete task");
+  }
+  todoList.splice(todoIndex, 1);
 
-app.route("/api/todo", todo);
+  return c.json({ message: "Task deleted" }, 200);
+});
+
+app.onError((err, c) => {
+  return c.json({ message: err.message }, 400);
+});
 
 serve({
   fetch: app.fetch,

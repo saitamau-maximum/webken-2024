@@ -1,0 +1,12 @@
+{
+  "name": "3-3-todo-api",
+  "type": "module",
+  "dependencies": {
+    "@hono/node-server": "^1.11.1",
+    "better-sqlite3": "^10.0.0",
+    "hono": "^4.3.7"
+  },
+  "scripts": {
+    "start": "node server.js"
+  }
+}

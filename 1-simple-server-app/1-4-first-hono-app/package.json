@@ -1,5 +1,5 @@
 {
-  "name": "1-3-first-hono-app",
+  "name": "1-4-first-hono-app",
   "type": "module",
   "dependencies": {
     "@hono/node-server": "^1.11.1",

@@ -1,0 +1,10 @@
+{
+  "name": "3-2-alter-tasks",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^10.0.0"
+  }
+}

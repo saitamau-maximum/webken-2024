@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
@@ -8,28 +8,62 @@
   <body>
     <h1>TODOアプリ</h1>
 
-    <div id="todoList"></div>
+    <div id="todo-list"></div>
 
     <script>
-      // サーバーからTODOリストを取得して表示する
-      async function fetchTodoList() {
+      const todoListElement = document.getElementById("todo-list");
+
+      const fetchAndDisplayTodoList = async () => {
         const response = await fetch("http://localhost:8000/api/todo");
         const todoList = await response.json();
 
-        const todoListElement = document.getElementById("todoList");
         todoListElement.innerHTML = "";
 
         todoList.forEach((todo) => {
+          // inputタグを生成
+          // <input />
+          const checkBox = document.createElement("input");
+          // <input type="checkbox" />
+          checkBox.type = "checkbox";
+          // <input type="checkbox" checked />
+          checkBox.checked = todo.completed;
+          // <input type="checkbox" checked disabled />
+          checkBox.disabled = true;
+
+          // spanタグを生成
+          // <span></span>
+          const span = document.createElement("span");
+          // <span>...</span>
+          span.textContent = todo.title;
+
+          // divタグを生成
+          // <div></div>
           const todoElement = document.createElement("div");
-          todoElement.innerHTML = `
-          <input type="checkbox" ${todo.completed ? "checked" : ""} disabled>
-          <span>${todo.title}</span>
-        `;
+
+          // divタグの子要素として、作成したinputタグとspanタグを追加
+          // <div>
+          //   <input type="checkbox" checked disabled />
+          // </div>
+          todoElement.appendChild(checkBox);
+
+          // <div>
+          //   <input type="checkbox" checked disabled />
+          //   <span>...</span>
+          // </div>
+          todoElement.appendChild(span);
+
+          // idが"todo-list"のdivタグの子要素として、上で作成したdivタグを追加
+          // <div id=""todo-list">
+          //   <div>
+          //     <input type="checkbox" checked disabled />
+          //     <span>...</span>
+          //   </div>
+          // </div>
           todoListElement.appendChild(todoElement);
         });
-      }
+      };
 
-      document.addEventListener("DOMContentLoaded", fetchTodoList);
+      document.addEventListener("DOMContentLoaded", fetchAndDisplayTodoList);
     </script>
   </body>
 </html>

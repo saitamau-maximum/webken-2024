@@ -2,14 +2,9 @@ import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 
-const todo = new Hono();
+const app = new Hono();
 
-todo.use(
-  "*",
-  cors({
-    origin: "null",
-  })
-);
+app.use(cors({ origin: "*" }));
 
 let todoList = [
   { id: "1", title: "JavaScriptを勉強する", completed: false },
@@ -18,35 +13,35 @@ let todoList = [
   { id: "4", title: "ゲームをクリアする", completed: false },
 ];
 
-todo.get(
-  "/",
-  (c) =>
-    new Response(JSON.stringify(todoList), {
-      headers: { "Content-Type": "application/json" },
-    })
-);
+app.get("/api/todo", (c) => c.json(todoList, 200));
 
-todo.put("/:id", async (c) => {
+app.put("/api/todo/:id", async (c) => {
+  const param = await c.req.json();
   const id = c.req.param("id");
+
+  if (!param.title && param.completed === undefined) {
+    throw new Error("Either title or completed must be provided");
+  }
+
   const todo = todoList.find((todo) => todo.id === id);
   if (!todo) {
-    return new Response(JSON.stringify({ message: "not found" }), {
-      status: 404,
-      headers: { "Content-Type": "application/json" },
-    });
+    throw new Error("Failed to update task title");
   }
-  const param = await c.req.json();
 
-  todo.title = param.title || todo.title;
-  todo.completed =
-    param.completed !== undefined ? param.completed : todo.completed;
+  if (param.title) {
+    todo.title = param.title;
+  }
 
-  return new Response(null, { status: 204 });
+  if (param.completed !== undefined) {
+    todo.completed = param.completed;
+  }
+
+  return c.json({ message: "Task updated" }, 200);
 });
 
-const app = new Hono();
-
-app.route("/api/todo", todo);
+app.onError((err, c) => {
+  return c.json({ message: err.message }, 400);
+});
 
 serve({
   fetch: app.fetch,

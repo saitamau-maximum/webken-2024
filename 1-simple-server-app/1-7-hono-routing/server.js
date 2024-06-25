@@ -1,10 +1,7 @@
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
-import { cors } from "hono/cors";
 
 const app = new Hono();
-
-app.use(cors({ origin: "*" }));
 
 const todoList = [
   { title: "JavaScriptを勉強する", completed: false },
@@ -13,7 +10,13 @@ const todoList = [
   { title: "ゲームをクリアする", completed: false },
 ];
 
+// GET /api/todo
 app.get("/api/todo", (c) => c.json(todoList, 200));
+
+// GET /api/todo/:id
+app.get("/api/todo/:id", (c) =>
+  c.text("入力されたID: " + c.req.param("id"), 200),
+);
 
 serve({
   fetch: app.fetch,

@@ -1,10 +1,10 @@
-# 1-simple-server-app
+# 3-sqlite-server
 
-## 1-6-edit-todo
+## 3-3-todo-api
 
 ### 実行環境
 
-`1-simple-server-app/1-6-edit-todo` に `cd` した上で、以下のコマンドを実行する必要があります:
+`3-3-todo-api` に `cd` した上で、以下のコマンドを実行する必要があります:
 
 ```bash
 npm install
@@ -16,12 +16,22 @@ npm install
 npm run start
 ```
 
+### 動作確認
+
+#### TODO一覧表示コマンド
+
+以下のコマンドを実行後にブラウザをリロードすると、TODO一覧が表示されていることが確認できます。
+
+```bash
+curl -X GET http://localhost:8000/api/todo
+```
+
 #### TODO追加コマンド
 
 以下のコマンドを実行後にブラウザをリロードすると、TODOが追加されていることが確認できます。
 
 ```bash
-curl -X POST -H "Content-Type: application/json" -d '{"title": "次回のWeb研に出席する"}' http://localhost:8000
+curl -X POST -H "Content-Type: application/json" -d '{"title": "次回のWeb研に出席する"}' http://localhost:8000/api/todo
 ```
 
 #### TODO変更コマンド
@@ -29,13 +39,13 @@ curl -X POST -H "Content-Type: application/json" -d '{"title": "次回のWeb研�
 以下のコマンドを実行後にブラウザをリロードすると、「TODOアプリを自作する」のタスクが完了済みになっていることが確認できます。
 
 ```bash
-curl -X PUT -H "Content-Type: application/json" -d '{"completed": true}' http://localhost:8000/2
+curl -X PUT -H "Content-Type: application/json" -d '{"completed": true}' http://localhost:8000/api/todo/2
 ```
 
 また、以下のコマンドを実行後にブラウザをリロードすると、「JavaScriptを勉強する」のタイトルが「Node.jsを勉強する」になっていることが確認できます。
 
 ```bash
-curl -X PUT -H "Content-Type: application/json" -d '{"title": "Node.jsを勉強する"}' http://localhost:8000/1
+curl -X PUT -H "Content-Type: application/json" -d '{"title": "Node.jsを勉強する"}' http://localhost:8000/api/todo/1
 ```
 
 #### TODO削除コマンド
@@ -43,7 +53,7 @@ curl -X PUT -H "Content-Type: application/json" -d '{"title": "Node.jsを勉強�
 以下のコマンドを実行後にブラウザをリロードすると、「漫画を読み切る」のタスクが削除されていることが確認できます。
 
 ```bash
-curl -X DELETE http://localhost:8000/3
+curl -X DELETE http://localhost:8000/api/todo/3
 ```
 
 #### ステータスコード早見表
